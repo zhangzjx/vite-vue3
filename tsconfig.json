@@ -4,7 +4,7 @@
 		"useDefineForClassFields": true,
 		"module": "esnext",
 		"moduleResolution": "node",
-		"strict": true,
+		"strict": false, // 是否严格检查
 		"jsx": "preserve",
 		"sourceMap": true,
 		"resolveJsonModule": true,
@@ -15,5 +15,5 @@
 			"@/*": ["src/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/icons/index.ts"]
 }

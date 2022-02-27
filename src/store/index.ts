@@ -1,7 +1,19 @@
 // src/store/index.ts
+// import { createPinia } from 'pinia'
+// import app from './modules/app'
+// import getters from './getters'
 
-import { createPinia } from 'pinia'
+// const store = createPinia()
 
-const store = createPinia()
+// export default store
 
-export default store
+// vuex
+import { createStore } from 'vuex'
+import app from './modules/app'
+import getters from './getters'
+export default createStore({
+	modules: {
+		app
+	},
+	getters
+})

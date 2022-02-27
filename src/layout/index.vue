@@ -1,0 +1,50 @@
+<template>
+	<el-container class="app-wrapper">
+		<el-aside :width="asideWidth" class="sidebar-container">
+			<Menu />
+		</el-aside>
+		<el-container class="container" :class="{ hidderContainer: !store.getters.siderType }">
+			<el-header><Headers /></el-header>
+			<el-main><router-view /></el-main>
+		</el-container>
+	</el-container>
+</template>
+
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import Headers from './Headers/index.vue'
+import Menu from './Menus/index.vue'
+import store from '@/store'
+
+import variables from '@/style/variables.scss'
+
+const asideWidth = computed(() => {
+	return store.getters.siderType ? '230px' : '67px'
+	console.log(variables)
+})
+</script>
+
+<style lang="scss" scoped>
+.app-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.container {
+	width: calc(100% - 210px);
+	height: 100%;
+
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 9;
+	transition: all 0.28s;
+
+	&.hidderContainer {
+		width: calc(100% - 47px);
+	}
+}
+::deep .el-header {
+	padding: 0;
+}
+</style>
