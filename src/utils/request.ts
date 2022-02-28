@@ -2,9 +2,17 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { diffTokenTime } from './auth'
 import store from '@/store'
-const baseURL: any = import.meta.env.VITE_PUBLIC_PATH
-console.log('baseURL', baseURL)
 
+const isProd = import.meta.env.VITE_ENV === 'production'
+
+let baseURL
+// 判断环境
+if (isProd) {
+	baseURL = import.meta.env.VITE_PUBLIC_PATH
+} else {
+	baseURL = '/prod'
+}
+console.log('baseURL', baseURL)
 const service = axios.create({
 	baseURL: baseURL,
 	timeout: 5000

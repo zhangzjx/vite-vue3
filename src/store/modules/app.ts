@@ -22,11 +22,15 @@ export default {
 	},
 	actions: {
 		login({ commit }, userInfo) {
+			const { username, password } = userInfo
 			return new Promise<void>((resolve, reject) => {
-				loginApi(userInfo)
+				loginApi({
+					username: username.trim(),
+					password: password
+				})
 					.then((res) => {
-						console.log('登录', res)
-						commit('setToken', res.token)
+						console.log('登录成功', res)
+						commit('setToken', res?.token)
 						setTokenTime()
 						router.replace('/')
 						resolve()

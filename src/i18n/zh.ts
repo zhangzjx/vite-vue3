@@ -2,9 +2,12 @@ export default {
 	menus: {
 		'/': '首页',
 		home: '首页',
+		userManage: '用户管理',
 		users: '用户列表',
+		jurisdiction: '权限管理',
 		roles: '角色列表',
 		rights: '权限列表',
+		goodsManage: '商品管理',
 		goods: '商品列表',
 		params: '分类参数',
 		categories: '商品分类',

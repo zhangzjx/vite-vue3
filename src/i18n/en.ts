@@ -2,9 +2,12 @@ export default {
 	menus: {
 		'/': 'home',
 		home: 'home',
+		userManage: 'user manage',
 		users: 'users list',
+		jurisdiction: 'jurisdiction',
 		roles: 'roles list',
 		rights: 'permission list',
+		goodsManage: 'goods manage',
 		goods: 'product list',
 		params: 'sorting list',
 		categories: 'goods category',

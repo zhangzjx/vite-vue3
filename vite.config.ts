@@ -5,7 +5,6 @@ import path from 'path'
 // @ts-ignore
 import viteCompression from 'vite-plugin-compression'
 
-// https://vitejs.dev/config/
 export default defineConfig({
 	base: './', // 打包路径
 	plugins: [
@@ -35,7 +34,7 @@ export default defineConfig({
 			sass: {
 				// 8版本用prependData:
 				prependData: `
-				@import "@/styles/variables.scss";   
+				@import "@/styles/variables.scss";
 				@import "@/styles/mixin.scss";
 			  `
 			}
@@ -45,13 +44,22 @@ export default defineConfig({
 	server: {
 		host: '0.0.0.0',
 		port: 8000,
-		open: true,
+		open: false, // 默认打开浏览器
 		https: false,
 		proxy: {
 			// 代理配置
-			'/api': {
-				target: 'https://lianghj.top:8888/api/private/v1/',
-				changeOrigin: true
+			'/prod': {
+				target: 'https://lianghj.top:8888/api/private/v1',
+				changeOrigin: true, // 跨域
+				ws: true, // 是否代理
+				rewrite: (path) => path.replace(/^\/prod/, '')
+			},
+			// 代理配置
+			'/dev': {
+				target: 'http://192.168.10.46:8888/api',
+				changeOrigin: true,
+				ws: true,
+				rewrite: (path) => path.replace(/^\/dev/, '')
 			}
 		}
 	},

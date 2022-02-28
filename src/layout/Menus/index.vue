@@ -56,6 +56,14 @@ const mockMenu = ref([
 				children: [],
 				order: null,
 				icon: 'goods'
+			},
+			{
+				id: 111,
+				authName: '首页',
+				path: 'home',
+				children: [],
+				order: null,
+				icon: 'goods'
 			}
 		],
 		id: 125,
