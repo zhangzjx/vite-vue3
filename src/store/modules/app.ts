@@ -1,12 +1,22 @@
 import { login as loginApi } from '@/api/login'
 import router from '@/router'
 import { setTokenTime } from '@/utils/auth'
+import { ElMessageBox } from 'element-plus'
+import { ref, getCurrentInstance } from 'vue' // 下面有简单解释
+
+// const { proxy } = getCurrentInstance() // 下面有简单解释
+
+const menuList = []
+// menuList.value.splice(0, 2)
+// console.log('初始化路由表', menuList.value)
+
 export default {
 	namespaced: true,
 	state: () => ({
 		token: localStorage.getItem('token') || '',
 		siderType: true, // 左侧导航栏初始状态
-		lang: localStorage.getItem('lang') || 'zh'
+		lang: localStorage.getItem('lang') || 'zh',
+		menus: menuList
 	}),
 	mutations: {
 		setToken(state, token) {
@@ -42,9 +52,12 @@ export default {
 		},
 		// 退出
 		logout({ commit }) {
-			commit('setToken', '')
-			localStorage.clear()
-			router.replace('/login')
+			ElMessageBox.confirm('确认退出当前账户吗？').then(() => {
+				commit('setToken', '')
+				localStorage.clear()
+				sessionStorage.clear()
+				router.replace('/login')
+			})
 		}
 	}
 }

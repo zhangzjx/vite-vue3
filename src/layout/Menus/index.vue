@@ -11,25 +11,29 @@
 		unique-opened
 		:collapse="siderType"
 	>
-		<el-sub-menu :index="item.id" v-for="(item, index) in mockMenu" :key="item.id">
+		<el-sub-menu :index="item.path" v-for="(item, index) in mockMenu" :key="key">
 			<template #title>
 				<el-icon>
-					<component :is="item.icon"></component>
+					<component :is="item.meta.icon"></component>
 				</el-icon>
-				<span>{{ item.authName }}</span>
+				<span>
+					{{ $t(`${item.meta.title}`) }}
+				</span>
 			</template>
 
 			<el-menu-item
-				:index="'/' + it.path"
+				:index="it.path"
 				v-for="it in item.children"
-				:key="it.id"
+				:key="key"
 				@click="savePath(it.path)"
 			>
 				<template #title>
 					<el-icon>
-						<component :is="it.icon"></component>
+						<component :is="it.meta.icon"></component>
 					</el-icon>
-					<span>{{ $t(`menus.${it.path}`) }}</span>
+					<span>
+						{{ $t(`${it.meta.title}`) }}
+					</span>
 				</template>
 			</el-menu-item>
 		</el-sub-menu>
@@ -41,88 +45,13 @@ import { menuList } from '@/api/menu'
 import store from '@/store'
 // import variables from '@/styles/variables.scss'
 import { ref, computed } from 'vue'
+import { getCurrentInstance } from 'vue' // 下面有简单解释
 
-const iconList = ref(['user', 'setting', 'shop', 'tickets', 'pie-chart'])
-const icon = ref('menu')
+const { proxy } = getCurrentInstance() // 下面有简单解释
 
-const mockMenu = ref([
-	{
-		authName: '用户管理',
-		children: [
-			{
-				id: 110,
-				authName: '用户列表',
-				path: 'users',
-				children: [],
-				order: null,
-				icon: 'goods'
-			},
-			{
-				id: 111,
-				authName: '首页',
-				path: 'home',
-				children: [],
-				order: null,
-				icon: 'goods'
-			}
-		],
-		id: 125,
-		order: 1,
-		path: 'users',
-		icon: 'user'
-	},
-	{
-		authName: '权限管理',
-		children: [
-			{
-				id: 111,
-				authName: '角色列表',
-				path: 'roles',
-				children: [],
-				order: null,
-				icon: 'setting'
-			},
-			{
-				id: 112,
-				authName: '权限列表',
-				path: 'rights',
-				children: [],
-				order: null,
-				icon: 'setting'
-			}
-		],
-		id: 103,
-		order: 2,
-		path: 'rights',
-		icon: 'setting'
-	},
-	{
-		authName: '商品管理',
-		children: [
-			{ id: 104, authName: '商品列表', path: 'goods', children: [], order: 1, icon: 'apple' },
-			{
-				id: 115,
-				authName: '分类参数',
-				path: 'params',
-				children: [],
-				order: 2,
-				icon: 'goods'
-			},
-			{
-				id: 121,
-				authName: '商品分类',
-				path: 'categories',
-				children: [],
-				order: 3,
-				icon: 'goods'
-			}
-		],
-		id: 101,
-		order: 3,
-		path: 'goods',
-		icon: 'setting'
-	}
-])
+const mockMenu = ref(proxy.$router.options.routes)
+mockMenu.value.splice(0, 2)
+console.log('路由表', mockMenu.value)
 
 //计算左侧导航栏展开/缩放状态
 const siderType = computed(() => {
@@ -130,17 +59,18 @@ const siderType = computed(() => {
 })
 
 // 读取缓存-点击的菜单
-const defaultActive = ref(sessionStorage.getItem('path') || '/users')
+const defaultActive = ref(sessionStorage.getItem('path') || 'document')
 const initMenuList = async () => {
-	const res = await menuList()
-	console.log('menuList', res)
+	// const res = await menuList()
+	console.log('menuList')
 }
 
 initMenuList()
 
 // 缓存-点击的菜单
 const savePath = (path: string) => {
-	sessionStorage.setItem('path', `/${path}`)
+	path = path.slice(1)
+	sessionStorage.setItem('path', path)
 }
 const handleOpen = (key: string, keyPath: string[]) => {
 	// console.log(key, keyPath)

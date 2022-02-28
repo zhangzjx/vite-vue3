@@ -2,10 +2,10 @@
 	<el-breadcrumb separator="/">
 		<el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="index">
 			<span class="no-redirect" v-if="index === breadcrumbList.length - 1">
-				{{ $t(`menus.${item.name}`) }}
+				{{ $t(`${item.meta.title}`) }}
 			</span>
 			<span class="redirect" v-else @click="handleRedirect(item.path)">
-				{{ $t(`menus.${item.name}`) }}
+				{{ $t(`${item.meta.title}`) }}
 			</span>
 		</el-breadcrumb-item>
 	</el-breadcrumb>
@@ -22,7 +22,7 @@ const breadcrumbList = ref([])
 const initBreadcrumbList = () => {
 	// 路由表
 	breadcrumbList.value = route.matched
-	console.log('路由表', route.matched)
+	console.log('路由表bread', route.matched)
 }
 
 const handleRedirect = (path) => {

@@ -3,18 +3,18 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 /* Layout */
 import Layout from '@/layout/index.vue'
 const routes: RouteRecordRaw[] = [
-
 	{
 		path: '/login',
 		name: 'login',
-		component: () => import('@/views/login/Login.vue')
+		component: () => import('@/views/login/Login.vue'),
+		meta: { title: 'message.system.login', hideTabs: true }
 	},
 
 	{
 		path: '/',
 		name: '/',
 		component: Layout,
-		redirect: '/userManage',
+		redirect: '/document',
 		children: [
 			// {
 			// 	path: 'users',
@@ -46,25 +46,28 @@ const routes: RouteRecordRaw[] = [
 			// 	name: 'roles',
 			// 	component: () => import('@/views/roles/index.vue')
 			// }
-		]
+		],
+		meta: { title: 'message.system.login', hideTabs: true }
 	},
-	// 用户管理
+	// 文档
 	{
-		path: '/userManage',
-		name: 'userManage',
+		path: '/document',
+		name: 'document',
 		component: Layout,
-		redirect: '/users',
+		redirect: '/intro',
 		meta: {
-			title: '用户管理'
+			title: 'message.menu.document.name',
+			icon: 'document'
 		},
 		children: [
-			// 用户管理
+			// 使用说明
 			{
-				path: '/users',
-				name: 'users',
+				path: '/intro',
+				name: 'intro',
 				component: () => import('@/views/users/index.vue'),
 				meta: {
-					title: '用户管理'
+					title: 'message.menu.document.intro',
+					icon: 'goods'
 				}
 			},
 			// 首页
@@ -73,7 +76,8 @@ const routes: RouteRecordRaw[] = [
 				name: 'home',
 				component: () => import('@/views/home/hello.vue'),
 				meta: {
-					title: '首页'
+					title: 'message.menu.dashboard.index',
+					icon: 'home-filled'
 				}
 			}
 		]
@@ -85,7 +89,8 @@ const routes: RouteRecordRaw[] = [
 		component: Layout,
 		redirect: '/roles',
 		meta: {
-			title: '权限管理'
+			title: 'message.menu.directive.dragable',
+			icon: 'setting'
 		},
 		children: [
 			// 角色列表
@@ -94,7 +99,8 @@ const routes: RouteRecordRaw[] = [
 				name: 'roles',
 				component: () => import('@/views/roles/index.vue'),
 				meta: {
-					title: '角色列表'
+					title: 'message.menu.directive.copy',
+					icon: 'menu'
 				}
 			},
 			// 权限列表
@@ -103,46 +109,8 @@ const routes: RouteRecordRaw[] = [
 				name: 'rights',
 				component: () => import('@/views/rights/index.vue'),
 				meta: {
-					title: '权限列表'
-				}
-			}
-		]
-	},
-	// 商品管理
-	{
-		path: '/goodsManage',
-		name: 'goodsManage',
-		component: Layout,
-		redirect: '/goods',
-		meta: {
-			title: '商品管理'
-		},
-		children: [
-			// 商品列表
-			{
-				path: '/goods',
-				name: 'goods',
-				component: () => import('@/views/goods/index.vue'),
-				meta: {
-					title: '商品列表'
-				}
-			},
-			//分类参数
-			{
-				path: '/params',
-				name: 'params',
-				component: () => import('@/views/params/index.vue'),
-				meta: {
-					title: '分类参数'
-				}
-			},
-			//商品分类
-			{
-				path: '/categories',
-				name: 'categories',
-				component: () => import('@/views/categories/index.vue'),
-				meta: {
-					title: '商品分类'
+					title: 'message.menu.directive.waterMarker',
+					icon: 'apple'
 				}
 			}
 		]
