@@ -45,12 +45,13 @@ import { menuList } from '@/api/menu'
 import store from '@/store'
 // import variables from '@/styles/variables.scss'
 import { ref, computed } from 'vue'
-import { getCurrentInstance } from 'vue' // 下面有简单解释
+import { getCurrentInstance } from 'vue'
 
-const { proxy } = getCurrentInstance() // 下面有简单解释
+const { proxy } = getCurrentInstance() // 相当于this
 
 const mockMenu = ref(proxy.$router.options.routes)
 mockMenu.value.splice(0, 2)
+localStorage.setItem('menus', JSON.stringify(mockMenu.value))
 console.log('路由表', mockMenu.value)
 
 //计算左侧导航栏展开/缩放状态

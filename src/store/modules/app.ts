@@ -2,21 +2,13 @@ import { login as loginApi } from '@/api/login'
 import router from '@/router'
 import { setTokenTime } from '@/utils/auth'
 import { ElMessageBox } from 'element-plus'
-import { ref, getCurrentInstance } from 'vue' // 下面有简单解释
-
-// const { proxy } = getCurrentInstance() // 下面有简单解释
-
-const menuList = []
-// menuList.value.splice(0, 2)
-// console.log('初始化路由表', menuList.value)
 
 export default {
 	namespaced: true,
 	state: () => ({
 		token: localStorage.getItem('token') || '',
 		siderType: true, // 左侧导航栏初始状态
-		lang: localStorage.getItem('lang') || 'zh',
-		menus: menuList
+		lang: localStorage.getItem('lang') || 'zh'
 	}),
 	mutations: {
 		setToken(state, token) {
