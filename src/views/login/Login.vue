@@ -1,24 +1,26 @@
 <template>
 	<div class="login-container">
 		<el-form ref="formRef" :model="form" class="login-form" :rules="rules">
-			<div class="title-container">
-				<h3 class="title">{{ $t('message.system.title') }}</h3>
-			</div>
-			<el-form-item prop="username">
-				<svg-icon name="user" class="svg-container"></svg-icon>
-				<el-input v-model="form.username"></el-input>
-			</el-form-item>
-			<el-form-item prop="password">
-				<svg-icon name="password" class="svg-container"></svg-icon>
-				<el-input v-model="form.password" :type="passwordType"></el-input>
-				<svg-icon
-					:name="passwordType === 'password' ? 'eye' : 'eye-open'"
-					@click="changeType"
-				></svg-icon>
-			</el-form-item>
-			<el-button type="primary" class="login-button" @click="handleLogin">{{
-				$t('message.system.login')
-			}}</el-button>
+			<el-card class="box-card">
+				<div class="title-container">
+					<h3 class="title">{{ $t('message.system.title') }}</h3>
+				</div>
+				<el-form-item prop="username">
+					<svg-icon name="user" class="svg-container"></svg-icon>
+					<el-input v-model="form.username"></el-input>
+				</el-form-item>
+				<el-form-item prop="password">
+					<svg-icon name="password" class="svg-container"></svg-icon>
+					<el-input v-model="form.password" :type="passwordType"></el-input>
+					<svg-icon
+						:name="passwordType === 'password' ? 'eye' : 'eye-open'"
+						@click="changeType"
+					></svg-icon>
+				</el-form-item>
+				<el-button type="primary" class="login-button" @click="handleLogin">{{
+					$t('message.system.login')
+				}}</el-button>
+			</el-card>
 		</el-form>
 	</div>
 </template>
@@ -77,13 +79,20 @@ const changeType = () => {
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
-$cursor: #fff;
+$cursor: #121b74;
 
 .login-container {
 	min-height: 100%;
 	width: 100%;
 	background-color: $bg;
+    background-image: url("@/assets/login-bg.png");
+    opacity: 0.8;
 	overflow: hidden;
+
+	.box-card {
+        color: $black;
+		background-color: #dadada;
+	}
 
 	.login-form {
 		position: relative;
@@ -93,14 +102,13 @@ $cursor: #fff;
 		margin: 0 auto;
 		overflow: hidden;
 
-		::v-deep .el-form-item {
+		:deep(.el-form-item) {
 			border: 1px solid rgba(255, 255, 255, 0.1);
 			background: rgba(0, 0, 0, 0.1);
 			border-radius: 5px;
 			color: #454545;
 		}
-
-		::v-deep .el-input {
+		:deep(.el-input) {
 			display: inline-block;
 			height: 47px;
 			width: 85%;
@@ -111,7 +119,7 @@ $cursor: #fff;
 				-webkit-appearance: none;
 				border-radius: 0px;
 				padding: 12px 5px 12px 15px;
-				color: $light_gray;
+				color: $black;
 				height: 47px;
 				caret-color: $cursor;
 			}
@@ -122,22 +130,9 @@ $cursor: #fff;
 		}
 	}
 
-	.tips {
-		font-size: 16px;
-		line-height: 28px;
-		color: #fff;
-		margin-bottom: 10px;
-
-		span {
-			&:first-of-type {
-				margin-right: 16px;
-			}
-		}
-	}
-
 	.svg-container {
 		padding: 6px 5px 6px 15px;
-		color: $dark_gray;
+		color: $black;
 		vertical-align: middle;
 		display: inline-block;
 	}
@@ -147,13 +142,13 @@ $cursor: #fff;
 
 		.title {
 			font-size: 26px;
-			color: $light_gray;
+			color: $black;
 			margin: 0px auto 40px auto;
 			text-align: center;
 			font-weight: bold;
 		}
 
-		::v-deep .lang-select {
+		:deep(.lang-select) {
 			position: absolute;
 			top: 4px;
 			right: 0;

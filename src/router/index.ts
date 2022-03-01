@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
 		path: '/login',
 		name: 'login',
 		component: () => import('@/views/login/Login.vue'),
-		meta: { title: 'message.system.login', hidden: true }
+		meta: { title: 'message.system.login', menuHide: true }
 	},
 
 	{
@@ -71,7 +71,7 @@ const routes: RouteRecordRaw[] = [
 			// 	component: () => import('@/views/roles/index.vue')
 			// }
 		],
-		meta: { title: 'message.system.login', hideTabs: true }
+		meta: { title: 'message.system.login', menuHide: true }
 	},
 	// 文档
 	{

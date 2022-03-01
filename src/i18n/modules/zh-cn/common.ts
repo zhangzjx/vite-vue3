@@ -1,5 +1,7 @@
 export default {
   common: {
+    cancle: '取消',
+    ok: '确定',
     search: '搜索',
     searchTip: '请输入关键词进行检索',
     add: '新增',

@@ -5,3 +5,11 @@ export function isValidKey(
 ): key is keyof typeof object {
 	return key in object
 }
+
+// 示例
+// import { isValidKey } from '@/utils/isValidKey'
+// for (const iconName in ELIcons) {
+// 	if (isValidKey(iconName, ELIcons)) {
+// 		app.component(iconName, ELIcons[iconName])
+// 	}
+// }

@@ -1,5 +1,7 @@
 export default {
   common: {
+    cancle: 'Cancle',
+    ok: 'OK',
     search: 'search',
     searchTip: 'please input keyword',
     add: 'add',

@@ -31,7 +31,7 @@ const asideWidth = computed(() => {
 	height: 100%;
 }
 .container {
-	width: calc(100% - 210px);
+	width: calc(100% - $sideBarWidth);
 	height: 100%;
 
 	position: fixed;
@@ -41,7 +41,7 @@ const asideWidth = computed(() => {
 	transition: all 0.28s;
 
 	&.hidderContainer {
-		width: calc(100% - 47px);
+		width: calc(100% - $hideSideBarWidth);
 	}
 }
 ::deep .el-header {

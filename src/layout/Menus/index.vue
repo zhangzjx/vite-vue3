@@ -44,11 +44,10 @@
 import { menuList } from '@/api/menu'
 import store from '@/store'
 // import variables from '@/styles/variables.scss'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { getCurrentInstance } from 'vue'
 
 const { proxy } = getCurrentInstance() // 相当于this
-
 const mockMenu = ref(proxy.$router.options.routes)
 mockMenu.value.splice(0, 2)
 localStorage.setItem('menus', JSON.stringify(mockMenu.value))

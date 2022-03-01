@@ -1,25 +1,22 @@
 import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router/index'
-import store from './store'
+import App from '@//App.vue'
+import router from '@/router/index'
+import store from '@//store'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import '@/style/index.scss'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import SvgIcon from '@/components/SvgIcon/index.vue' // svg组件
 import '@/router/permission' // 路由守卫
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import * as ELIcons from '@element-plus/icons-vue'
+import elementIcon from '@/plugins/svgicon'
 import i18n from '@/i18n'
-import { isValidKey } from '@/utils/isValidKey'
 
-// createApp(App).mount('#app')
+import 'element-plus/dist/index.css'
+import './style/index.scss'
+
 const app = createApp(App)
 
-for (const iconName in ELIcons) {
-	if (isValidKey(iconName, ELIcons)) {
-		app.component(iconName, ELIcons[iconName])
-	}
-}
+// element icon
+app.use(elementIcon)
+
 app.component('svg-icon', SvgIcon)
 
 app.use(router)

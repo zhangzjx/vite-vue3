@@ -44,7 +44,11 @@ export default {
 		},
 		// 退出
 		logout({ commit }) {
-			ElMessageBox.confirm('确认退出当前账户吗？').then(() => {
+			ElMessageBox.confirm('确认退出当前账户吗？', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
 				commit('setToken', '')
 				localStorage.clear()
 				sessionStorage.clear()

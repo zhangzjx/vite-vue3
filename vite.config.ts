@@ -29,15 +29,15 @@ export default defineConfig({
 	css: {
 		preprocessorOptions: {
 			scss: {
-				additionalData: '@import "@/style/mian.scss";'
-			},
-			sass: {
-				// 8版本用prependData:
-				prependData: `
-				@import "@/styles/variables.scss";
-				@import "@/styles/mixin.scss";
-			  `
+				additionalData: '@import "./src/style/mian.scss";'
 			}
+			// sass: {
+			// 	// 8版本用prependData:
+			// 	prependData: `
+			// 	@import "@/styles/variables.scss";
+			// 	@import "@/styles/mixin.scss";
+			//   `
+			// }
 		}
 	},
 	//启动服务配置
