@@ -46,11 +46,6 @@ const routes: RouteRecordRaw[] = [
 			// 	component: () => import('@/views/users/index.vue')
 			// },
 			// {
-			// 	path: 'categories',
-			// 	name: 'categories',
-			// 	component: () => import('@/views/categories/index.vue')
-			// },
-			// {
 			// 	path: 'goods',
 			// 	name: 'goods',
 			// 	component: () => import('@/views/goods/index.vue')
@@ -59,11 +54,6 @@ const routes: RouteRecordRaw[] = [
 			// 	path: 'params',
 			// 	name: 'params',
 			// 	component: () => import('@/views/params/index.vue')
-			// },
-			// {
-			// 	path: 'rights',
-			// 	name: 'rights',
-			// 	component: () => import('@/views/rights/index.vue')
 			// },
 			// {
 			// 	path: 'roles',
@@ -84,16 +74,6 @@ const routes: RouteRecordRaw[] = [
 			icon: 'document'
 		},
 		children: [
-			// 使用说明
-			{
-				path: '/intro',
-				name: 'intro',
-				component: () => import('@/views/users/index.vue'),
-				meta: {
-					title: 'message.menu.document.intro',
-					icon: 'goods'
-				}
-			},
 			// 首页
 			{
 				path: '/home',
@@ -103,37 +83,100 @@ const routes: RouteRecordRaw[] = [
 					title: 'message.menu.dashboard.index',
 					icon: 'home-filled'
 				}
+			},
+			// 使用说明
+			{
+				path: '/intro',
+				name: 'intro',
+				component: () => import('@/views/document/intro.vue'),
+				meta: {
+					title: 'message.menu.document.intro',
+					icon: 'goods'
+				}
+			},
+			// 路由菜单配置
+			{
+				path: '/document/menu',
+				name: 'home',
+				component: () => import('@/views/document/menu.vue'),
+				meta: {
+					title: 'message.menu.document.menu',
+					icon: 'home-filled'
+				}
 			}
 		]
 	},
-	// 权限管理
+	// 系统管理
 	{
-		path: '/jurisdiction',
-		name: 'jurisdiction',
+		path: '/systemManage',
+		name: 'systemManage',
 		component: Layout,
 		redirect: '/roles',
 		meta: {
-			title: 'message.menu.directive.dragable',
+			title: 'message.menu.systemManage.name',
 			icon: 'setting'
 		},
 		children: [
-			// 角色列表
+			// 菜单
 			{
-				path: '/roles',
-				name: 'roles',
-				component: () => import('@/views/roles/index.vue'),
+				path: '/menu',
+				name: 'menu',
+				component: () => import('@/views/goods/index.vue'),
 				meta: {
-					title: 'message.menu.directive.copy',
+					title: 'message.menu.systemManage.menu',
 					icon: 'menu'
 				}
 			},
-			// 权限列表
+			// 角色
 			{
-				path: '/rights',
-				name: 'rights',
-				component: () => import('@/views/rights/index.vue'),
+				path: '/role',
+				name: 'role',
+				component: () => import('@/views/roles/index.vue'),
 				meta: {
-					title: 'message.menu.directive.waterMarker',
+					title: 'message.menu.systemManage.role',
+					icon: 'apple'
+				}
+			},
+			// 用户
+			{
+				path: '/user',
+				name: 'user',
+				component: () => import('@/views/params/index.vue'),
+				meta: {
+					title: 'message.menu.systemManage.user',
+					icon: 'user'
+				}
+			}
+		]
+	},
+	// 表格
+	{
+		path: '/table',
+		name: 'table',
+		component: Layout,
+		redirect: '/crudTable',
+		meta: {
+			title: 'message.menu.table.name',
+			icon: 'apple'
+		},
+		children: [
+			// 业务表格
+			{
+				path: '/crudTable',
+				name: 'crudTable',
+				component: () => import('@/views/roles/index.vue'),
+				meta: {
+					title: 'message.menu.table.crudTable',
+					icon: 'chicken'
+				}
+			},
+			// 其它表格
+			{
+				path: '/otherTable',
+				name: 'otherTable',
+				component: () => import('@/views/params/index.vue'),
+				meta: {
+					title: 'message.menu.table.otherTable',
 					icon: 'apple'
 				}
 			}
