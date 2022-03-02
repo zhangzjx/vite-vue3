@@ -1,32 +1,42 @@
 <template>
-	<div class="login-container">
-		<el-form ref="formRef" :model="form" class="login-form" :rules="rules">
+	<ScreenAdapter>
+		<div class="login-container">
 			<el-card class="box-card">
-				<div class="title-container">
-					<h3 class="title">{{ $t('message.system.title') }}</h3>
+				<div class="login-form flex">
+					<el-form ref="formRef" :model="form" :rules="rules">
+						<div class="title-container">
+							<h3 class="title">{{ $t('message.system.title') }}</h3>
+						</div>
+						<el-form-item prop="username">
+							<svg-icon name="user" class="svg-container"></svg-icon>
+							<el-input v-model="form.username"></el-input>
+						</el-form-item>
+						<el-form-item prop="password">
+							<svg-icon name="password" class="svg-container"></svg-icon>
+							<el-input v-model="form.password" :type="passwordType"></el-input>
+							<svg-icon class="show-pwd"
+								:name="passwordType === 'password' ? 'eye' : 'eye-open'"
+								@click="changeType"
+							></svg-icon>
+						</el-form-item>
+						<el-button type="primary" class="login-button" @click="handleLogin">{{
+							$t('message.system.login')
+						}}</el-button>
+					</el-form>
 				</div>
-				<el-form-item prop="username">
-					<svg-icon name="user" class="svg-container"></svg-icon>
-					<el-input v-model="form.username"></el-input>
-				</el-form-item>
-				<el-form-item prop="password">
-					<svg-icon name="password" class="svg-container"></svg-icon>
-					<el-input v-model="form.password" :type="passwordType"></el-input>
-					<svg-icon
-						:name="passwordType === 'password' ? 'eye' : 'eye-open'"
-						@click="changeType"
-					></svg-icon>
-				</el-form-item>
-				<el-button type="primary" class="login-button" @click="handleLogin">{{
-					$t('message.system.login')
-				}}</el-button>
+				<div class="login-info">
+					<div class="info-card blur_box">
+						<h2>{{ $t('message.system.subTitle') }}</h2>
+					</div>
+				</div>
 			</el-card>
-		</el-form>
-	</div>
+		</div>
+	</ScreenAdapter>
 </template>
 
 <script setup lang="ts">
 import { login } from '@/api/login'
+import ScreenAdapter from '@/components/ScreenAdapter.vue'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
@@ -76,31 +86,45 @@ const changeType = () => {
 </script>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
+$bg: #e4e7ec;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 $cursor: #121b74;
 
 .login-container {
-	min-height: 100%;
+	height: 100%;
 	width: 100%;
 	background-color: $bg;
-    background-image: url("@/assets/login-bg.png");
-    opacity: 0.8;
-	overflow: hidden;
+	// overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
 	.box-card {
-        color: $black;
-		background-color: #dadada;
+		width: 70%;
+		height: 80%;
+		display: flex;
+		color: $black;
+		background-color: $white;
+	}
+	:deep(.el-card) {
+		border-radius: 10px;
+		--el-card-padding: 0px;
+
+		.el-card__body {
+			width: 100%;
+		}
 	}
 
+	.flex {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 	.login-form {
-		position: relative;
-		width: 520px;
-		max-width: 100%;
-		padding: 160px 35px 0;
-		margin: 0 auto;
-		overflow: hidden;
+		float: left;
+		width: 50%;
+		height: 100%;
 
 		:deep(.el-form-item) {
 			border: 1px solid rgba(255, 255, 255, 0.1);
@@ -111,7 +135,7 @@ $cursor: #121b74;
 		:deep(.el-input) {
 			display: inline-block;
 			height: 47px;
-			width: 85%;
+			width: 300px;
 
 			input {
 				background: transparent;
@@ -130,6 +154,29 @@ $cursor: #121b74;
 		}
 	}
 
+	.login-info {
+		float: left;
+		width: 50%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+		background: url('@/assets/login-info.jpg') no-repeat;
+		filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+		-moz-background-size: 100% 100%;
+		background-size: 100% 100%;
+
+		.info-card {
+			width: 90%;
+			height: 80px;
+			margin-bottom: 30px;
+			color: $white;
+		}
+		.blur_box {
+			backdrop-filter: blur(5px) brightness(110%); // 磨砂效果
+		}
+	}
+
 	.svg-container {
 		padding: 6px 5px 6px 15px;
 		color: $black;
@@ -143,7 +190,7 @@ $cursor: #121b74;
 		.title {
 			font-size: 26px;
 			color: $black;
-			margin: 0px auto 40px auto;
+			margin: 0px auto 40px;
 			text-align: center;
 			font-weight: bold;
 		}
@@ -152,7 +199,7 @@ $cursor: #121b74;
 			position: absolute;
 			top: 4px;
 			right: 0;
-			background-color: white;
+			background-color: $white;
 			font-size: 22px;
 			padding: 4px;
 			border-radius: 4px;
@@ -161,9 +208,7 @@ $cursor: #121b74;
 	}
 
 	.show-pwd {
-		// position: absolute;
-		// right: 10px;
-		// top: 7px;
+		margin-right: 10px;
 		font-size: 16px;
 		color: $dark_gray;
 		cursor: pointer;

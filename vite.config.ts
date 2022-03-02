@@ -31,19 +31,12 @@ export default defineConfig({
 			scss: {
 				additionalData: '@import "./src/style/mian.scss";'
 			}
-			// sass: {
-			// 	// 8版本用prependData:
-			// 	prependData: `
-			// 	@import "@/styles/variables.scss";
-			// 	@import "@/styles/mixin.scss";
-			//   `
-			// }
 		}
 	},
 	//启动服务配置
 	server: {
 		host: '0.0.0.0',
-		port: 8000,
+		port: 9848,
 		open: false, // 默认打开浏览器
 		https: false,
 		proxy: {
