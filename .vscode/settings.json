@@ -1,6 +1,6 @@
 {
-    "files.exclude": {
-        "**/.git": false
-    },
-    "files.autoSave": "afterDelay"
+	"files.exclude": {
+		"**/.git": false
+	},
+	"files.autoSave": "afterDelay"
 }

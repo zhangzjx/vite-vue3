@@ -68,17 +68,17 @@ const routes: RouteRecordRaw[] = [
 		path: '/document',
 		name: 'document',
 		component: Layout,
-		redirect: '/intro',
+		redirect: '/document/intro',
 		meta: {
 			title: 'message.menu.document.name',
 			icon: 'document'
 		},
 		children: [
-			// 首页
+			// 其它
 			{
-				path: '/home',
+				path: '/document/home',
 				name: 'home',
-				component: () => import('@/views/home/hello.vue'),
+				component: () => import('@/views/home/home.vue'),
 				meta: {
 					title: 'message.menu.dashboard.index',
 					icon: 'home-filled'
@@ -86,7 +86,7 @@ const routes: RouteRecordRaw[] = [
 			},
 			// 使用说明
 			{
-				path: '/intro',
+				path: '/document/intro',
 				name: 'intro',
 				component: () => import('@/views/document/intro.vue'),
 				meta: {
@@ -97,7 +97,7 @@ const routes: RouteRecordRaw[] = [
 			// 路由菜单配置
 			{
 				path: '/document/menu',
-				name: 'home',
+				name: 'menu',
 				component: () => import('@/views/document/menu.vue'),
 				meta: {
 					title: 'message.menu.document.menu',
@@ -119,8 +119,8 @@ const routes: RouteRecordRaw[] = [
 		children: [
 			// 菜单
 			{
-				path: '/menu',
-				name: 'menu',
+				path: '/goods',
+				name: 'goods',
 				component: () => import('@/views/goods/index.vue'),
 				meta: {
 					title: 'message.menu.systemManage.menu',
