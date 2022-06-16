@@ -164,7 +164,7 @@ const routes: RouteRecordRaw[] = [
 			{
 				path: '/crudTable',
 				name: 'crudTable',
-				component: () => import('@/views/roles/index.vue'),
+				component: () => import('@/views/crudTable/index.vue'),
 				meta: {
 					title: 'message.menu.table.crudTable',
 					icon: 'chicken'
