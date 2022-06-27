@@ -1,4 +1,14 @@
 <template>
+	<Search
+		ref="searchBar"
+		v-model="searchConfig.data"
+		:config="searchConfig.config"
+		:loading="searchConfig.loading"
+		:form-btn="['query', 'reset', 'exerpot']"
+		@query="query"
+		@reset="reset"
+		@insert="insert"
+	/>
 	<el-table :data="tableData" border style="width: 100%">
 		<el-table-column type="index" label="序号" width="70" align="center" />
 		<el-table-column prop="date" label="时间" width="180" />
@@ -26,16 +36,52 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Pagination from '@/components/pagination/index.vue'
+import Search from '@/components/Search/index.vue'
+import Pagination from '@/components/Pagination/index.vue'
 import LayerDialog from './dialog.vue'
 import { mockData } from './enum'
 export default defineComponent({
 	name: 'crudTable',
 	components: {
+		Search,
 		Pagination,
 		LayerDialog
 	},
 	setup() {
+		const searchConfig = {
+			data: {},
+			loading: false,
+			config: [
+				{
+					tag: 'input',
+					field: 'xm',
+					placeholder: '姓名',
+					label: '姓名'
+				},
+				{
+					tag: 'input',
+					field: 'gmsfhm',
+					placeholder: '身份证号',
+					label: '身份证号'
+				},
+				{
+					tag: 'select',
+					field: 'gmsfhms',
+					placeholder: '单选select',
+					label: '单选select',
+					options: [
+						{
+							value: '香蕉',
+							label: '香蕉'
+						},
+						{
+							value: '苹果',
+							label: '苹果'
+						}
+					]
+				}
+			]
+		}
 		// 分页参数, 供table使用
 		const pageParams = reactive({ total: 50, page: 1, limit: 10 })
 
@@ -72,7 +118,7 @@ export default defineComponent({
 			console.log(index, row)
 		}
 
-		const getTableData = (pages: any) => {
+		const getTableData = (pages: any, form = {}) => {
 			pageParams.total = mockData.length
 			let { page, limit } = pages
 			const pageInfo = {
@@ -85,17 +131,45 @@ export default defineComponent({
 			console.error('tableData', tableData)
 		}
 
+		const query = (data) => {
+			// console.log('确定', data)
+			const form = { ...data }
+			if (form.date) {
+				form.startTime = form.date[0]
+				form.endTime = form.date[1]
+				delete form.date
+			}
+			Object.keys(form).forEach((key) => {
+				if (form[key] === '' || form[key] === undefined) {
+					delete form[key]
+				}
+			})
+
+			// console.log('确定11', form)
+			getTableData(pageParams, form)
+		}
+		const reset = () => {
+			console.log('重置')
+		}
+		function insert() {
+			console.log('新增用户')
+		}
+
 		// 初始化时调用
 		getTableData(pageParams)
 
 		return {
+			searchConfig,
 			tableData,
 			pageParams,
 			layer,
 			handleAdd,
 			handleEdit,
 			handleDelete,
-			getTableData
+			getTableData,
+			query,
+			reset,
+			insert
 		}
 	}
 })
