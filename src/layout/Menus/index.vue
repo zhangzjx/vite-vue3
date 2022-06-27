@@ -11,7 +11,7 @@
 		unique-opened
 		:collapse="siderType"
 	>
-		<el-sub-menu :index="item.path" v-for="(item, index) in mockMenu" :key="key">
+		<el-sub-menu :index="item.path" v-for="(item, index) in mockMenu" :key="index">
 			<template #title>
 				<el-icon>
 					<component :is="item.meta.icon"></component>
@@ -24,7 +24,7 @@
 			<el-menu-item
 				:index="it.path"
 				v-for="it in item.children"
-				:key="key"
+				:key="it.path"
 				@click="savePath(it.path)"
 			>
 				<template #title>
@@ -44,7 +44,7 @@
 import { menuList } from '@/api/menu'
 import store from '@/store'
 // import variables from '@/styles/variables.scss'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, reactive } from 'vue'
 import { getCurrentInstance } from 'vue'
 
 const { proxy } = getCurrentInstance() // 相当于this
@@ -65,11 +65,8 @@ const initMenuList = async () => {
 	console.log('menuList')
 }
 
-initMenuList()
-
 // 缓存-点击的菜单
 const savePath = (path: string) => {
-	path = path.slice(1)
 	sessionStorage.setItem('path', path)
 }
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -78,6 +75,8 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
 	// console.log(key, keyPath)
 }
+
+initMenuList()
 </script>
 
 <style lang="scss" scoped></style>
