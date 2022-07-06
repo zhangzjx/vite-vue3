@@ -2,7 +2,8 @@
 弹窗组件代码
 -->
 <template>
-	<div v-drag>
+	<!-- <div v-drag> -->
+	<div>
 		<el-dialog ref="dialog" v-model="layer.show" :title="layer.title" :width="layer.width" center>
 			<slot></slot>
 			<template #footer v-if="layer.showButton">

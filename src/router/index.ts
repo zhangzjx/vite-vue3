@@ -181,6 +181,29 @@ const routes: RouteRecordRaw[] = [
 				}
 			}
 		]
+	},
+	// 控制台
+	{
+		path: '/control',
+		name: 'control',
+		component: Layout,
+		redirect: '/dashboard',
+		meta: {
+			title: 'message.menu.control.name',
+			icon: 'DataAnalysis'
+		},
+		children: [
+			// 仪表板
+			{
+				path: '/dashboard',
+				name: 'dashboard',
+				component: () => import('@/views/dashboard/index.vue'),
+				meta: {
+					title: 'message.menu.control.dashboard',
+					icon: 'Grape'
+				}
+			}
+		]
 	}
 ]
 

@@ -15,6 +15,10 @@ export default {
 			crudTable: 'crudTable',
 			otherTable: 'otherTable'
 		},
+		control: {
+			name: 'control',
+			dashboard: 'dashboard',
+		},
 		component: {
 			name: 'component',
 			button: 'button',

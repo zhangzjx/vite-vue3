@@ -15,6 +15,10 @@ export default {
 			crudTable: '业务表格',
       otherTable: '其它表格'
 		},
+		control: {
+			name: '控制台',
+			dashboard: '首页',
+		},
 		component: {
 			name: '组件',
 			button: '按钮',

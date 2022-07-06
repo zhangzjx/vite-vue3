@@ -11,13 +11,13 @@
 	/>
 	<el-table :data="tableData" border style="width: 100%">
 		<el-table-column type="index" label="序号" width="70" align="center" />
-		<el-table-column prop="date" label="时间" width="180" />
-		<el-table-column prop="name" label="名称" width="180" />
-		<el-table-column prop="number" label="数字" width="180" />
-		<el-table-column prop="chooseName" label="单选框" width="180" />
-		<el-table-column prop="radioName" label="选择器" width="180" />
+		<el-table-column prop="date" label="时间" />
+		<el-table-column prop="name" label="名称" />
+		<el-table-column prop="number" label="数字" />
+		<el-table-column prop="chooseName" label="单选框" />
+		<el-table-column prop="radioName" label="选择器" />
 		<el-table-column prop="address" label="地址" />
-		<el-table-column label="Operations">
+		<el-table-column label="Operations" width="180">
 			<template #default="scope">
 				<el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
 				<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"

@@ -13,6 +13,7 @@
     "@element-plus/icons-vue": "^0.2.7",
     "axios": "^0.26.0",
     "dart-sass": "^1.25.0",
+    "echarts": "^5.3.3",
     "element-plus": "^2.2.6",
     "pinia": "^2.0.9",
     "sass": "^1.49.0",
