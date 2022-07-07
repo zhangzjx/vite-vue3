@@ -63,6 +63,29 @@ const routes: RouteRecordRaw[] = [
 		],
 		meta: { title: 'message.system.login', menuHide: true }
 	},
+	// 控制台
+	{
+		path: '/control',
+		name: 'control',
+		component: Layout,
+		redirect: '/dashboard',
+		meta: {
+			title: 'message.menu.control.name',
+			icon: 'DataAnalysis'
+		},
+		children: [
+			// 仪表板
+			{
+				path: '/dashboard',
+				name: 'dashboard',
+				component: () => import('@/views/dashboard/index.vue'),
+				meta: {
+					title: 'message.menu.control.dashboard',
+					icon: 'Grape'
+				}
+			}
+		]
+	},
 	// 文档
 	{
 		path: '/document',
@@ -174,33 +197,10 @@ const routes: RouteRecordRaw[] = [
 			{
 				path: '/otherTable',
 				name: 'otherTable',
-				component: () => import('@/views/params/index.vue'),
+				component: () => import('@/views/rankingList/rankmain.vue'),
 				meta: {
 					title: 'message.menu.table.otherTable',
 					icon: 'apple'
-				}
-			}
-		]
-	},
-	// 控制台
-	{
-		path: '/control',
-		name: 'control',
-		component: Layout,
-		redirect: '/dashboard',
-		meta: {
-			title: 'message.menu.control.name',
-			icon: 'DataAnalysis'
-		},
-		children: [
-			// 仪表板
-			{
-				path: '/dashboard',
-				name: 'dashboard',
-				component: () => import('@/views/dashboard/index.vue'),
-				meta: {
-					title: 'message.menu.control.dashboard',
-					icon: 'Grape'
 				}
 			}
 		]

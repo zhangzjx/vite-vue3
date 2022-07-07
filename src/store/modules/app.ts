@@ -31,6 +31,7 @@ export default {
 					password: password
 				})
 					.then((res) => {
+						location.reload()
 						console.log('登录成功', res)
 						commit('setToken', res?.token)
 						setTokenTime()

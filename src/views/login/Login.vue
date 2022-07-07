@@ -1,5 +1,5 @@
 <template>
-	<ScreenAdapter>
+	<!-- <ScreenAdapter> -->
 		<div class="login-container">
 			<el-card class="box-card">
 				<div class="login-form flex">
@@ -31,7 +31,7 @@
 				</div>
 			</el-card>
 		</div>
-	</ScreenAdapter>
+	<!-- </ScreenAdapter> -->
 </template>
 
 <script setup lang="ts">
