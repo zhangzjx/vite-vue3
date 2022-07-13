@@ -130,6 +130,7 @@ export const beastData = [
 		level: 85
 	}
 ]
+
 // 超级泡泡
 // 超级神虎
 // 超级大熊猫

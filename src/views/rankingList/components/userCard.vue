@@ -24,14 +24,16 @@
 				<div class="user-bio-section-body">
 					<div class="progress-item">
 						<span>境界</span>
-						<el-progress :percentage="70" />
+						<el-progress :percentage="parentInfo.level">
+							<span>{{ parentInfo.level }}</span>
+						</el-progress>
 					</div>
 					<div class="progress-item">
 						<span>战力</span>
 						<el-progress :percentage="18" />
 					</div>
 					<div class="progress-item">
-						<span>ESLint</span>
+						<span>稀有度</span>
 						<el-progress :percentage="100" status="success" />
 					</div>
 				</div>
@@ -88,24 +90,6 @@ export default defineComponent({
 
 	.box-center {
 		padding-top: 10px;
-	}
-
-	.user-role {
-		padding-top: 10px;
-		font-weight: 400;
-		font-size: 14px;
-	}
-
-	.box-social {
-		padding-top: 30px;
-
-		.el-table {
-			border-top: 1px solid #dfe6ec;
-		}
-	}
-
-	.user-follow {
-		padding-top: 20px;
 	}
 }
 

@@ -2,6 +2,7 @@ import { login as loginApi } from '@/api/login'
 import router from '@/router'
 import { setTokenTime } from '@/utils/auth'
 import { ElMessageBox } from 'element-plus'
+import { defautData } from '@/mock/main'
 
 export default {
 	namespaced: true,
@@ -36,6 +37,7 @@ export default {
 						commit('setToken', res?.token)
 						setTokenTime()
 						router.replace('/')
+						localStorage.setItem('defautData', JSON.stringify(defautData))
 						resolve()
 					})
 					.catch((err) => {

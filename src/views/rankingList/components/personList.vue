@@ -15,15 +15,19 @@
 						</el-table-column>
 						<el-table-column label="姓名">
 							<template v-slot="{ row }">
-								<el-link type="primary" @click="openUserCard(row.id, 'left')">{{
-									row.name
-								}}</el-link>
+								<el-link type="primary" @click="openCard(row.id, 'left')">{{ row.name }}</el-link>
 							</template>
 						</el-table-column>
 						<el-table-column label="种族" prop="race"> </el-table-column>
 						<el-table-column label="擅长兵器" prop="weaponName"> </el-table-column>
 						<el-table-column label="所属势力" prop="sectName"> </el-table-column>
 					</el-table>
+					<Pagination
+						:total="pageParams.total"
+						:page="pageParams.page"
+						:limit="pageParams.limit"
+						@pagination="getPeopleData"
+					/>
 				</el-card>
 			</el-col>
 			<el-col :span="12">
@@ -40,13 +44,17 @@
 						</el-table-column>
 						<el-table-column label="姓名">
 							<template v-slot="{ row }">
-								<el-link type="primary" @click="openUserCard(row.id, 'right')">{{
-									row.name
-								}}</el-link>
+								<el-link type="primary" @click="openCard(row.id, 'right')">{{ row.name }}</el-link>
 							</template>
 						</el-table-column>
 						<el-table-column label="所属势力" prop="race"> </el-table-column>
 					</el-table>
+					<Pagination
+						:total="pageParams2.total"
+						:page="pageParams2.page"
+						:limit="pageParams2.limit"
+						@pagination="getBeastData"
+					/>
 				</el-card>
 			</el-col>
 		</el-row>
@@ -70,16 +78,16 @@
 import { defineComponent, ref, reactive, nextTick } from 'vue'
 import UserCard from './userCard.vue'
 import BeastCard from './beastCard.vue'
-import { personData } from './personData'
-import { beastData } from './beastData'
+import Pagination from '@/components/Pagination/index.vue'
+import { setDefaulttData, getDefaultData, loadData } from '@/mock/main'
 
 export default defineComponent({
 	name: 'BeastList',
-	components: { UserCard, BeastCard },
+	components: { UserCard, BeastCard, Pagination },
 	setup(props) {
 		let dialogVisible = ref(false)
 		let activiteCom = ref('UserCard')
-		let tableData = reactive([
+		let tableData = ref([
 			// {
 			// 	// id: 1,
 			// 	name: '王铁牛',
@@ -88,42 +96,54 @@ export default defineComponent({
 			// 	sectLevel: '1'
 			// }
 		])
-		let tableBeast = reactive([])
+		const baseData = getDefaultData()
+		let personData = baseData.personData
+		let beastData = baseData.beastData
+		// 分页参数, 供table使用
+		const pageParams = reactive({ total: 50, page: 1, limit: 10 })
+		const pageParams2 = reactive({ total: 50, page: 1, limit: 10 })
+
+		let tableBeast = ref([])
 		let params = reactive({})
 		// let params = ref({})
-		const openUserCard = (id, type) => {
+
+		const openCard = (id, type) => {
 			dialogVisible.value = true
 			activiteCom.value = type === 'left' ? 'UserCard' : 'BeastCard'
 			// params.value = tableData[0] // 可以使用ref形式赋值
 			// params = tableData[0]  // 直接赋值子组件取不到值
-			Object.assign(params, tableData[id - 1])
+			Object.assign(params, tableData.value[id - 1])
 			console.error('params', params)
 		}
 
 		const initData = () => {
-			getPeopleData()
-			getBeastData()
+			personData = loadData(personData)
+			beastData = loadData(beastData)
+			getPeopleData(pageParams)
+			getBeastData(pageParams2)
 		}
-		const getPeopleData = () => {
-			// 随机数 = Math.floor(Math.random() * 可能的总数 + 第一个可能的值)
-			personData.map((item, index) => (item.level = Math.floor(Math.random() * 100 + 1)))
-			personData.sort((a, b) => {
-				return b.level - a.level
-			})
 
-			personData.forEach((item, index) => (item['id'] = index + 1))
-			tableData = personData
+		const getPeopleData = (pages: any, form = {}) => {
+			console.error('tableData')
+			pageParams.total = personData.length
+			let { page, limit } = pages
+			const pageInfo = {
+				page, // 页码
+				limit // 每页大小
+			}
+			// 分页参数已拿到，剩下就是你自己调用接口的方法
+			tableData.value = personData.slice((page - 1) * limit, page * limit)
 			console.error('tableData', tableData)
 		}
-		const getBeastData = () => {
-			// 随机数 = Math.floor(Math.random() * 可能的总数 + 第一个可能的值)
-			beastData.map((item, index) => (item.level = Math.floor(Math.random() * 100 + 1)))
-			beastData.sort((a, b) => {
-				return b.level - a.level
-			})
 
-			beastData.forEach((item, index) => (item['id'] = index + 1))
-			tableBeast = beastData
+		const getBeastData = (pages: any, form = {}) => {
+			pageParams2.total = beastData.length
+			let { page, limit } = pages
+			const pageInfo = {
+				page, // 页码
+				limit // 每页大小
+			}
+			tableBeast.value = beastData.slice((page - 1) * limit, page * limit)
 			console.error('tableBeast', tableBeast)
 		}
 		initData()
@@ -132,9 +152,13 @@ export default defineComponent({
 			activiteCom,
 			tableData,
 			tableBeast,
+			pageParams,
+			pageParams2,
 			params,
-			openUserCard,
-			initData
+			openCard,
+			initData,
+			getPeopleData,
+			getBeastData
 		}
 	}
 })
