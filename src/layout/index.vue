@@ -3,7 +3,7 @@
 		<el-aside :width="asideWidth" class="sidebar-container">
 			<Menu />
 		</el-aside>
-		<el-container class="container" :class="{ hidderContainer: !store.getters.siderType }">
+		<el-container class="container" :class="{ hidderContainer: !isSider }">
 			<el-header><Headers /></el-header>
 			<el-main><router-view /></el-main>
 		</el-container>
@@ -14,12 +14,14 @@
 import { computed, ref } from 'vue'
 import Headers from './Headers/index.vue'
 import Menu from './Menus/index.vue'
-import store from '@/store'
-
 import variables from '@/style/variables.scss'
+import { useConfigStore } from '@/store/config'
+import { storeToRefs } from 'pinia'
+const userStore = useConfigStore()
+const { isSider } = storeToRefs(userStore)
 
 const asideWidth = computed(() => {
-	return store.getters.siderType ? '230px' : '67px'
+	return userStore.isSider ? '230px' : '67px'
 	console.log(variables)
 })
 </script>

@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from '@//App.vue'
 import router from '@/router/index'
-import store from '@//store'
+import store from '@/store'
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import SvgIcon from '@/components/SvgIcon/index.vue' // svg组件

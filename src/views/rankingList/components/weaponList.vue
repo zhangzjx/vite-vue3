@@ -32,15 +32,17 @@
 						<div class="card-header">兵器信息</div>
 					</template>
 					<div class="block">
-						<!-- <img :src="imgUrl"/> -->
+						<div>{{ isSider }}</div>
+						<div>{{ lang }}</div>
+						<img :src="imgUrl" />
 						<el-image :src="imgUrl" class="weapon_img"
 							><template #placeholder>
 								<div class="image-slot">加载中<span class="dot">...</span></div>
 							</template>
 						</el-image>
 					</div>
-				</el-card></el-col
-			>
+				</el-card>
+			</el-col>
 		</el-row>
 	</div>
 </template>
@@ -50,6 +52,10 @@ import { defineComponent, ref, reactive } from 'vue'
 import weapon1 from '@/assets/weapon-1.jpg'
 import weapon2 from '@/assets/weapon-2.jpg'
 import weapon4 from '@/assets/weapon-4.png'
+import { useConfigStore } from '@/store/config'
+import { storeToRefs } from 'pinia'
+const userStore = useConfigStore()
+const { isSider, lang } = storeToRefs(userStore)
 
 export default defineComponent({
 	name: 'WeaponList',
@@ -98,6 +104,8 @@ export default defineComponent({
 			imgUrl.value = weapon[id - 1]
 		}
 		return {
+			isSider,
+			lang,
 			weapon,
 			weaponInfo,
 			imgUrl,

@@ -46,6 +46,8 @@ import store from '@/store'
 // import variables from '@/styles/variables.scss'
 import { ref, computed, watch, reactive } from 'vue'
 import { getCurrentInstance } from 'vue'
+import { useConfigStore } from '@/store/config'
+const userStore = useConfigStore()
 
 const { proxy } = getCurrentInstance() // 相当于this
 const mockMenu = ref(proxy.$router.options.routes)
@@ -55,7 +57,7 @@ console.log('路由表', mockMenu.value)
 
 //计算左侧导航栏展开/缩放状态
 const siderType = computed(() => {
-	return !store.getters.siderType
+	return !userStore.isSider
 })
 
 // 读取缓存-点击的菜单

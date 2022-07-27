@@ -16,6 +16,9 @@
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { useConfigStore } from '@/store/config'
+const userStore = useConfigStore()
+
 const i18n = useI18n()
 const store = useStore()
 const currentLanguage = computed(() => {
@@ -24,8 +27,7 @@ const currentLanguage = computed(() => {
 
 const handleCommand = (val) => {
 	i18n.locale.value = val
-	store.commit('app/changLang', val)
-	localStorage.setItem('lang', val)
+	userStore.updateLang(val)
 }
 </script>
 

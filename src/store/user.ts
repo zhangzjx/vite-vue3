@@ -1,59 +1,64 @@
-//src/store/user.ts
 import { defineStore } from 'pinia'
-// import { useAppStore } from './app'
 import { login as loginApi } from '@/api/login'
 import router from '@/router'
 import { setTokenTime } from '@/utils/auth'
+import { ElMessageBox } from 'element-plus'
+import { defautData } from '@/mock/main'
 
-export const useUserStore = defineStore({
-	id: 'user',
+export const useUserStore = defineStore('user', {
 	state: () => {
 		return {
 			token: localStorage.getItem('token') || '',
-			siderType: true, // 左侧导航栏初始状态
-			lang: localStorage.getItem('lang') || 'zh'
+			routes: [] // 路由
 		}
 	},
 	getters: {
-		token: (state) => {
+		getToken: (state) => {
 			return state.token
-		},
-		siderType: (state) => {
-			return state.siderType
-		},
-		lang: (state) => {
-			return state.lang
 		}
 	},
 	actions: {
-		updateState(data: any) {
-			this.$state = data
-			this.updateAppConfig()
+		setToken(token: string) {
+			this.token = token
+			localStorage.setItem('token', token)
 		},
-		updateAppConfig() {
-			const appStore = useAppStore()
-			appStore.setData('app-update')
+		generateRoutes() {},
+		login(userInfo) {
+			const { username, password } = userInfo
+			return new Promise<void>((resolve, reject) => {
+				loginApi({
+					username: username.trim(),
+					password: password
+				})
+					.then((res) => {
+						location.reload()
+						console.log('登录成功', res)
+						this.setToken(res?.token)
+						setTokenTime()
+						router.replace('/')
+						localStorage.setItem('defautData', JSON.stringify(defautData))
+						resolve()
+					})
+					.catch((err) => {
+						reject(err)
+					})
+			})
+		},
+		// 退出
+		logout() {
+			ElMessageBox.confirm('确认退出当前账户吗？', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				console.log('确认退出当前账户吗？')
+				this.setToken('')
+				localStorage.clear()
+				sessionStorage.clear()
+
+				console.log('退出')
+				router.replace('/login')
+			})
 		}
-		// login({ commit }, userInfo) {
-		// 	return new Promise<void>((resolve, reject) => {
-		// 		loginApi(userInfo)
-		// 			.then((res) => {
-		// 				console.log('登录', res)
-		// 				commit('setToken', res.token)
-		// 				setTokenTime()
-		// 				router.replace('/')
-		// 				resolve()
-		// 			})
-		// 			.catch((err) => {
-		// 				reject(err)
-		// 			})
-		// 	})
-		// },
-		// // 退出
-		// logout({ commit }) {
-		// 	commit('setToken', '')
-		// 	localStorage.clear()
-		// 	router.replace('/login')
-		// }
 	}
 })

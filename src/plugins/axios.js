@@ -2,10 +2,10 @@
 /*
  * @Author: your name
  * @Date: 2020-10-16 10:38:49
- * @LastEditTime: 2021-12-02 15:50:51
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-07-27 10:42:24
+ * @LastEditors: zhangjiaxin
  * @Description: In User Settings Edit
- * @FilePath: \vue3-element-admin\src\plugins\axios.js
+ * @FilePath: \vite-vue3\src\plugins\axios.js
  */
 "use strict";
 
@@ -13,6 +13,8 @@ import axios from "axios";
 import Qs from "qs";
 import NProgress from "nprogress";
 import { SET_TOKEN } from "@/store/modules/app/type";
+import { useUserStore } from '@/store/user'
+const userStore = useUserStore()
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -52,7 +54,7 @@ const install = (app, { router, store, opt }) => {
             }
             loadingCount++;
             //*请求头添加token
-            const token = store.getters.token;
+            const token = userStore.token;
             token && (config.headers.Authorization = token);
 
             // Do something before request is sent

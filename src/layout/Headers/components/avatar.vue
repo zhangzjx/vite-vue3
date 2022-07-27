@@ -13,16 +13,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import store from '@/store'
-// import { useUserStore } from '@/store/user'
-
+import { useUserStore } from '@/store/user'
 const squareUrl = ref('src/assets/avatar.png')
-
-// const userStore = useUserStore()
+const userStore = useUserStore()
 
 const logout = () => {
-	// userStore.logout()
-	store.dispatch('app/logout')
+	userStore.logout()
 }
 </script>
 

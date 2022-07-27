@@ -38,8 +38,8 @@
 import { login } from '@/api/login'
 import ScreenAdapter from '@/components/ScreenAdapter.vue'
 import { ref } from 'vue'
-import { useStore } from 'vuex'
-const store = useStore()
+import { useUserStore } from '@/store/user'
+const userStore = useUserStore()
 const form = ref({
 	username: 'admin',
 	password: '123456'
@@ -56,7 +56,7 @@ const rules = ref({
 	password: [
 		{
 			required: true,
-			message: 'Please input Activity name',
+			message: 'Please input Activity password',
 			trigger: 'blur'
 		}
 	]
@@ -66,8 +66,8 @@ const formRef = ref(null)
 const handleLogin = () => {
 	formRef.value.validate(async (valid) => {
 		if (valid) {
-			store.dispatch('app/login', form.value)
 			// await login(form.value)
+			userStore.login(form.value)
 		} else {
 			console.log('error submit!!')
 			return false

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { diffTokenTime } from './auth'
-import store from '@/store'
+import { useUserStore } from '@/store/user'
 
 const isProd = import.meta.env.VITE_ENV === 'production'
 
@@ -21,10 +21,11 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
 	(config) => {
+		const userStore = useUserStore()
 		// 判断token是否存在以及是否失效
 		if (localStorage.getItem('token')) {
 			if (diffTokenTime()) {
-				store.dispatch('app/logout')
+				userStore.logout()
 				return Promise.reject(new Error('token 失效了'))
 			}
 		}

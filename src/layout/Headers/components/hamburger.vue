@@ -7,14 +7,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import store from '@/store'
-
+import { useConfigStore } from '@/store/config'
+const userStore = useConfigStore()
 // 改变按钮状态
 const toggleClick = () => {
-	store.commit('app/changeSiderType')
+	userStore.updateSider(!userStore.isSider)
 }
 const icon = computed(() => {
-	return store.getters.siderType ? 'hamburger-opened' : 'hamburger-closed'
+	return userStore.isSider ? 'hamburger-opened' : 'hamburger-closed'
 })
 </script>
 
