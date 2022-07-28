@@ -32,11 +32,11 @@
 		:limit="pageParams.limit"
 		@pagination="getTableData"
 	/>
-	<Layer-dialog :layer="layer" @getTableData="getTableData" v-if="layer.show" />
+	<Layer-dialog :layer="layer" @getTableData="getTableData" v-if="layer.layerVisible" />
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Search from '@/components/Search/index.vue'
+import Search from '@/components/base/SearchBar.vue'
 import Pagination from '@/components/Pagination/index.vue'
 import LayerDialog from './dialog.vue'
 import { mockData } from './enum'
@@ -88,9 +88,10 @@ export default defineComponent({
 		const tableData = ref([])
 		// 弹窗控制器
 		const layer = reactive({
-			show: false,
-			title: '新增',
+			layerVisible: false,
+			layerTitle: '新增',
 			showButton: true,
+			drag: true,
 			row: {}
 		})
 
@@ -102,16 +103,16 @@ export default defineComponent({
 
 		// 新增弹窗功能
 		const handleAdd = () => {
-			layer.title = '新增数据'
-			layer.show = true
+			layer.layerVisible = true
+			layer.layerTitle = '新增数据'
 			delete layer.row
 		}
 		// 编辑弹窗功能
 		const handleEdit = (row: object) => {
 			console.error('row', row)
-			layer.title = '编辑数据'
+			layer.layerVisible = true
+			layer.layerTitle = '编辑数据'
 			layer.row = row
-			layer.show = true
 		}
 
 		const handleDelete = (index: number, row: User) => {

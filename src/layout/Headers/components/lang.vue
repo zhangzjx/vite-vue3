@@ -15,12 +15,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import { useStore } from 'vuex'
 import { useConfigStore } from '@/store/config'
 const userStore = useConfigStore()
 
 const i18n = useI18n()
-const store = useStore()
 const currentLanguage = computed(() => {
 	return i18n.locale.value
 })

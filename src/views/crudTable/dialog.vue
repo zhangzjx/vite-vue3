@@ -1,9 +1,9 @@
 <template>
-	<Layer :layer="layer" @confirm="submit" ref="layerDom">
+	<Layer :layer="layer" @confirm="submit" @close="cancel" ref="layerDom">
 		<el-form
 			:model="form"
 			:rules="rules"
-			ref="ruleForm"
+			ref="refForm"
 			label-width="120px"
 			style="margin-right: 30px"
 		>
@@ -17,7 +17,7 @@
 					placeholder="只能输入正整数"
 				></el-input>
 			</el-form-item>
-			<el-form-item label="选择器：" prop="select">
+			<el-form-item label="选择器：" prop="choose">
 				<el-select v-model="form.choose" placeholder="请选择" clearable>
 					<el-option
 						v-for="item in selectData"
@@ -39,12 +39,11 @@
 </template>
 
 <script lang="ts">
-import type { LayerType } from '@/components/layer/index.vue'
-import type { Ref } from 'vue'
 import { defineComponent, ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import { add, update } from '@/api/table'
 import { selectData, radioData } from './enum'
-import Layer from '@/components/layer/index.vue'
+import Layer from '@/components/layer/Layer.vue'
 export default defineComponent({
 	components: {
 		Layer
@@ -53,17 +52,13 @@ export default defineComponent({
 		layer: {
 			type: Object,
 			default: () => {
-				return {
-					show: false,
-					title: '',
-					showButton: true
-				}
+				return {}
 			}
 		}
 	},
 	setup(props, ctx) {
-		const ruleForm = ref(null)
-		const layerDom: Ref<LayerType | null> = ref(null)
+		const refForm = ref(null)
+		const layerDom = ref(null)
 		let form = ref({
 			name: ''
 		})
@@ -73,61 +68,79 @@ export default defineComponent({
 			choose: [{ required: true, message: '请选择', trigger: 'blur' }],
 			radio: [{ required: true, message: '请选择', trigger: 'blur' }]
 		}
-		init()
-		function init() {
+
+		const init = () => {
 			// 用于判断新增还是编辑功能
 			if (props.layer.row) {
 				form.value = JSON.parse(JSON.stringify(props.layer.row)) // 数量量少的直接使用这个转
 			} else {
 			}
 		}
-		return {
-			form,
-			rules,
-			layerDom,
-			ruleForm,
-			selectData,
-			radioData
+		const cancel = () => {
+			props.layer.layerVisible = false
 		}
-	},
-	methods: {
-		submit() {
-			if (this.ruleForm) {
-				this.ruleForm.validate((valid) => {
+
+		const submit = () => {
+			// console.log('refForm!', refForm)
+			// console.log('refForm.value!', refForm.value)
+			if (refForm) {
+				refForm.value.validate((valid) => {
 					if (valid) {
-						let params = this.form
-						if (this.layer.row) {
-							this.updateForm(params)
+						console.log('submit!')
+						let params = form
+						if (props.layer.row) {
+							updateForm(params)
 						} else {
-							this.addForm(params)
+							addForm(params)
 						}
 					} else {
+						console.log('error submit!')
 						return false
 					}
 				})
 			}
-		},
+		}
 		// 新增提交事件
-		addForm(params: object) {
+		const addForm = (params: object) => {
+			console.log('addForm!', props.layer.row)
 			add(params).then((res) => {
-				this.$message({
-					type: 'success',
-					message: '新增成功'
-				})
-				this.$emit('getTableData', true)
-				this.layerDom && this.layerDom.close()
+				if (res) {
+					ElMessage({
+						message: '新增成功',
+						type: 'success'
+					})
+
+					ctx.emit('getTableData', true)
+				}
+				layerDom && layerDom.close()
 			})
-		},
+		}
 		// 编辑提交事件
-		updateForm(params: object) {
+		const updateForm = (params: object) => {
+			console.log('updateForm!', props.layer.row)
 			update(params).then((res) => {
-				this.$message({
-					type: 'success',
-					message: '编辑成功'
-				})
-				this.$emit('getTableData', false)
-				this.layerDom && this.layerDom.close()
+				if (res) {
+					ElMessage({
+						message: '编辑成功',
+						type: 'success'
+					})
+					ctx.emit('getTableData', false)
+				}
+				layerDom && layerDom.close()
 			})
+		}
+		init()
+		return {
+			form,
+			rules,
+			layerDom,
+			refForm,
+			selectData,
+			radioData,
+			cancel,
+			submit,
+			addForm,
+			updateForm
 		}
 	}
 })

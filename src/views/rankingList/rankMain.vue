@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue'
-import Search from '@/components/Search/index.vue'
+import Search from '@/components/base/SearchBar.vue'
 import WeaponList from './components/weaponList.vue'
 import PersonList from './components/personList.vue'
 

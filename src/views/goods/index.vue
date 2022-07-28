@@ -42,7 +42,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue'
-import Search from '@/components/Search/index.vue'
+import Search from '@/components/base/SearchBar.vue'
 import Pagination from '@/components/Pagination/index.vue'
 // import LayerDialog from './dialog.vue'
 import menu from '@/i18n/modules/zh-cn/menu'
