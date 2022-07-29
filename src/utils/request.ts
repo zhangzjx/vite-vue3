@@ -2,6 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { diffTokenTime } from './auth'
 import { useUserStore } from '@/store/user'
+import router from '@/router'
 
 const isProd = import.meta.env.VITE_ENV === 'production'
 
@@ -25,7 +26,10 @@ service.interceptors.request.use(
 		// 判断token是否存在以及是否失效
 		if (localStorage.getItem('token')) {
 			if (diffTokenTime()) {
-				userStore.logout()
+				userStore.setToken('')
+				localStorage.clear()
+				sessionStorage.clear()
+				router.replace('/login')
 				return Promise.reject(new Error('token 失效了'))
 			}
 		}
@@ -67,7 +71,7 @@ const status = (statusCode) => {
 			break
 		case 401: {
 			message = '未授权，请登录'
-			userStore.logout()
+			router.replace('/login')
 			break
 		}
 		case 403:

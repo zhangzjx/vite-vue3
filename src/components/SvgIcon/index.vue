@@ -15,7 +15,7 @@ export default {
  * @param color String
  * 依赖：src/icons/index.ts 需要在 vite中配置
  * 使用方式：
- * 在 template 中使用 <svg-icon name="bug"/>
+ * 在 template 中使用 <svg-icon name="language"></svg-icon>
  */
 import { computed } from 'vue'
 

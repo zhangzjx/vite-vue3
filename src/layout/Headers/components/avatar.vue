@@ -23,7 +23,7 @@ const logout = () => {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-dropdown-menu__item {
+:deep .el-dropdown-menu__item {
 	white-space: nowrap;
 }
 </style>

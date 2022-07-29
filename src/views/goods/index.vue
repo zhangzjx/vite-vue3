@@ -19,9 +19,21 @@
 			@expand-change="onExpandChange"
 		>
 			<el-table-column type="index" label="序号" width="70" align="center" />
-			<el-table-column prop="name" label="名称" min-width="180" />
-			<el-table-column prop="path" label="路径" min-width="180" />
-			<el-table-column label="操作">
+			<el-table-column prop="name" label="名称" min-width="180">
+				<template #default="scope"> {{ $t(`${scope.row.meta.title}`) }}</template>
+			</el-table-column>
+			<el-table-column prop="meta" label="图标" width="70" align="center">
+				<template #default="scope">
+					<el-icon><component :is="scope.row.meta.icon" /></el-icon>
+					<!-- <svg-icon name="apple"></svg-icon> -->
+				</template>
+			</el-table-column>
+			<el-table-column prop="path" label="路径" align="center" />
+			<el-table-column prop="path" label="类型" align="center" />
+			<el-table-column prop="path" label="更新时间" align="center" min-width="100">
+				<template #default="scope"> 2022-08-01 20:36:06 </template>
+			</el-table-column>
+			<el-table-column label="操作" min-width="120" align="center">
 				<template #default="scope">
 					<el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
 					<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"
@@ -38,21 +50,26 @@
 		/>
 	</el-card>
 
-	<!-- <Layer-dialog :layer="layer" @getTableData="getTableData" v-if="layer.show" /> -->
+	<Layer-dialog
+		v-if="layer.layerVisible"
+		:layer="layer"
+		@getTableData="getTableData"
+		@close="close"
+	/>
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import Search from '@/components/base/SearchBar.vue'
 import Pagination from '@/components/Pagination/index.vue'
-// import LayerDialog from './dialog.vue'
+import LayerDialog from './dialog.vue'
 import menu from '@/i18n/modules/zh-cn/menu'
 
 export default defineComponent({
 	name: 'crudTable',
 	components: {
 		Search,
-		Pagination
-		// LayerDialog
+		Pagination,
+		LayerDialog
 	},
 
 	setup() {
@@ -62,37 +79,9 @@ export default defineComponent({
 			config: [
 				{
 					tag: 'input',
-					field: 'xm',
-					placeholder: '姓名',
-					label: '姓名'
-				},
-				{
-					tag: 'input',
-					field: 'gmsfhm',
-					placeholder: '身份证号',
-					label: '身份证号'
-				},
-				{
-					tag: 'date-picker',
-					field: 'date',
-					placeholder: '日期',
-					label: '日期'
-				},
-				{
-					tag: 'select',
-					field: 'gmsfhms',
-					placeholder: '单选select',
-					label: '单选select',
-					options: [
-						{
-							value: '香蕉',
-							label: '香蕉'
-						},
-						{
-							value: '苹果',
-							label: '苹果'
-						}
-					]
+					field: 'mc',
+					placeholder: '名称',
+					label: '名称'
 				}
 			]
 		}
@@ -108,9 +97,10 @@ export default defineComponent({
 		let tableData = ref([])
 		// 弹窗控制器
 		const layer = reactive({
-			show: false,
-			title: '新增',
+			layerVisible: false,
+			layerTitle: '新增',
 			showButton: true,
+			drag: true,
 			row: {}
 		})
 
@@ -144,16 +134,19 @@ export default defineComponent({
 
 		// 新增弹窗功能
 		const handleAdd = () => {
-			layer.title = '新增数据'
-			layer.show = true
+			layer.layerVisible = true
+			layer.layerTitle = '新增数据'
 			delete layer.row
 		}
 		// 编辑弹窗功能
 		const handleEdit = (row: object) => {
 			console.error('row', row)
-			layer.title = '编辑数据'
+			layer.layerVisible = true
+			layer.layerTitle = '编辑数据'
 			layer.row = row
-			layer.show = true
+		}
+		const close = () => {
+			layer.layerVisible = false
 		}
 
 		const handleDelete = (index: number, row: User) => {
@@ -161,6 +154,7 @@ export default defineComponent({
 		}
 
 		const getTableData = (pages: any, form = {}) => {
+			layer.layerVisible = false
 			pageParams.total = menuData.length
 			let { page, limit } = pages
 			const pageInfo = {
@@ -217,7 +211,8 @@ export default defineComponent({
 			getTableData,
 			query,
 			reset,
-			insert
+			insert,
+			close
 		}
 	}
 })

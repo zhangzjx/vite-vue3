@@ -32,7 +32,12 @@
 		:limit="pageParams.limit"
 		@pagination="getTableData"
 	/>
-	<Layer-dialog :layer="layer" @getTableData="getTableData" v-if="layer.layerVisible" />
+	<Layer-dialog
+		v-if="layer.layerVisible"
+		:layer="layer"
+		@getTableData="getTableData"
+		@close="close"
+	/>
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
@@ -109,10 +114,14 @@ export default defineComponent({
 		}
 		// 编辑弹窗功能
 		const handleEdit = (row: object) => {
-			console.error('row', row)
+			console.log('编辑数据row', row)
 			layer.layerVisible = true
 			layer.layerTitle = '编辑数据'
 			layer.row = row
+		}
+
+		const close = () => {
+			layer.layerVisible = false
 		}
 
 		const handleDelete = (index: number, row: User) => {
@@ -120,6 +129,7 @@ export default defineComponent({
 		}
 
 		const getTableData = (pages: any, form = {}) => {
+			layer.layerVisible = false
 			pageParams.total = mockData.length
 			let { page, limit } = pages
 			const pageInfo = {
@@ -170,7 +180,8 @@ export default defineComponent({
 			getTableData,
 			query,
 			reset,
-			insert
+			insert,
+			close
 		}
 	}
 })

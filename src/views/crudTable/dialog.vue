@@ -60,7 +60,10 @@ export default defineComponent({
 		const refForm = ref(null)
 		const layerDom = ref(null)
 		let form = ref({
-			name: ''
+			name: '',
+			number: '',
+			choose: '',
+			radio: ''
 		})
 		const rules = {
 			name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
@@ -109,7 +112,6 @@ export default defineComponent({
 						message: '新增成功',
 						type: 'success'
 					})
-
 					ctx.emit('getTableData', true)
 				}
 				layerDom && layerDom.close()

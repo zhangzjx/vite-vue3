@@ -40,8 +40,13 @@
 					</el-form-item>
 				</div>
 				<div class="form-item">
-					<el-button type="primary" @click="onQuery">查询</el-button>
-					<el-button :loading="loading" type="primary" class="m-l-4" @click="onReset"
+					<el-button type="primary" @click="onQuery" :icon="Search">查询</el-button>
+					<el-button
+						:loading="loading"
+						type="primary"
+						class="m-l-4"
+						@click="onReset"
+						:icon="Refresh"
 						>重置</el-button
 					>
 					<el-button
@@ -51,6 +56,14 @@
 						class="m-l-4"
 						@click="onExerpot"
 						>导出</el-button
+					>
+					<el-button
+						v-if="formBtn.includes('insert')"
+						:loading="loading"
+						type="primary"
+						class="m-l-4"
+						@click="onInsert"
+						>添加</el-button
 					>
 					<!-- <el-button
 						v-if="config.length > 10"
@@ -78,6 +91,8 @@
 <script lang="ts">
 import { nextTick, Prop, ref, reactive } from 'vue'
 import { defineComponent, computed } from 'vue'
+import { Delete, Edit, Search, Refresh, Upload } from '@element-plus/icons-vue'
+
 interface Props {
 	formBtn: Array<any>
 	hidden: boolean
@@ -124,6 +139,11 @@ export default defineComponent({
 			emit('reset')
 		}
 
+		const onInsert = () => {
+			console.log('新增!')
+			emit('insert')
+		}
+
 		const onExerpot = () => {
 			console.log('导出!')
 			emit('exerpot')
@@ -144,8 +164,14 @@ export default defineComponent({
 			formData,
 			onQuery,
 			onReset,
+			onInsert,
 			onExerpot,
-			setInitFormData
+			setInitFormData,
+			Delete,
+			Edit,
+			Search,
+			Refresh,
+			Upload
 		}
 	}
 })
@@ -168,5 +194,4 @@ export default defineComponent({
 		}
 	}
 }
-
 </style>
