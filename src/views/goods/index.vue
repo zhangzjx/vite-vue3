@@ -5,11 +5,13 @@
 			v-model="searchConfig.data"
 			:config="searchConfig.config"
 			:loading="searchConfig.loading"
-			:form-btn="['query', 'reset', 'exerpot']"
+			:form-btn="['query', 'reset','insert', 'exerpot']"
 			@query="query"
 			@reset="reset"
-			@insert="insert"
-		/>
+			@insert="handleAdd"
+		>
+		</Search>
+
 		<el-table
 			:data="tableData"
 			row-key="id"
@@ -60,6 +62,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import Search from '@/components/base/SearchBar.vue'
+// import Search from '@/components/base/BaseForm.vue'
 import Pagination from '@/components/Pagination/index.vue'
 import LayerDialog from './dialog.vue'
 import menu from '@/i18n/modules/zh-cn/menu'
@@ -82,6 +85,29 @@ export default defineComponent({
 					field: 'mc',
 					placeholder: '名称',
 					label: '名称'
+				},
+				{
+					tag: 'input',
+					field: 'mc',
+					placeholder: '名称',
+					label: '名称'
+				},
+				{
+					tag: 'select',
+					field: 'gmsfhms',
+					placeholder: '单选select',
+					label: '单选select',
+					value: ['香蕉'],
+					options: [
+						{
+							value: '香蕉',
+							label: '香蕉'
+						},
+						{
+							value: '苹果',
+							label: '苹果'
+						}
+					]
 				}
 			]
 		}
@@ -169,7 +195,7 @@ export default defineComponent({
 			}
 			tableData.value = res
 			console.error('res', tableData)
-		}
+		} 
 
 		const query = (data) => {
 			// console.log('确定', data)

@@ -12,12 +12,13 @@
 			:draggable="dialogInfo.drag"
 			:close-on-click-modal="dialogInfo.closeOnClickModal"
 			:close-on-press-escape="dialogInfo.closeOnPressEscape"
+			:before-close="close"
 		>
 			<slot></slot>
 			<template #footer v-if="dialogInfo.showButton">
 				<div>
-					<el-button type="primary" @click="confirm">确认</el-button>
 					<el-button @click="close">取消</el-button>
+					<el-button type="primary" @click="confirm">确认</el-button>
 				</div>
 			</template>
 		</el-dialog>

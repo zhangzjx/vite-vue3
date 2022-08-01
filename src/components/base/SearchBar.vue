@@ -10,33 +10,36 @@
 						<el-input v-model="formData[item.field]" :placeholder="item.placeholder" />
 					</el-form-item> -->
 					<el-form-item :label="item.label" :prop="item.field">
-						<el-input
-							v-if="item.tag === 'input'"
-							v-model="formData[item.field]"
-							:placeholder="item.placeholder"
-						></el-input>
-						<el-select
-							v-if="item.tag === 'select'"
-							v-model="formData[item.field]"
-							:placeholder="item.placeholder"
-						>
-							<el-option
-								v-for="opItem in item.options"
-								:key="opItem.value"
-								:label="opItem.label"
-								:value="opItem.value"
+						<slot v-if="item.slot" :name="item.slot" />
+						<template v-else>
+							<el-input
+								v-if="item.tag === 'input'"
+								v-model="formData[item.field]"
+								:placeholder="item.placeholder"
+							></el-input>
+							<el-select
+								v-if="item.tag === 'select'"
+								v-model="formData[item.field]"
+								:placeholder="item.placeholder"
+							>
+								<el-option
+									v-for="opItem in item.options"
+									:key="opItem.value"
+									:label="opItem.label"
+									:value="opItem.value"
+								/>
+							</el-select>
+							<el-date-picker
+								v-if="item.tag === 'date-picker'"
+								v-model="formData[item.field]"
+								type="daterange"
+								start-placeholder="开始日期"
+								end-placeholder="结束日期"
+								format="YYYY-MM-DD"
+								value-format="YYYY-MM-DD HH:mm:ss"
+								:default-time="defaultTime"
 							/>
-						</el-select>
-						<el-date-picker
-							v-if="item.tag === 'date-picker'"
-							v-model="formData[item.field]"
-							type="daterange"
-							start-placeholder="开始日期"
-							end-placeholder="结束日期"
-							format="YYYY-MM-DD"
-							value-format="YYYY-MM-DD HH:mm:ss"
-							:default-time="defaultTime"
-						/>
+						</template>
 					</el-form-item>
 				</div>
 				<div class="form-item">

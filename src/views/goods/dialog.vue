@@ -57,151 +57,136 @@
 	</Layer>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, unref, computed, nextTick } from 'vue'
+<script lang="ts" setup>
+import { ref, computed, useAttrs, useSlots, defineEmits } from 'vue'
 import { ElMessage } from 'element-plus'
 import { add, update } from '@/api/table'
 import Selector from '@/components/SvgIcon/selector.vue'
 import Layer from '@/components/layer/Layer.vue'
 import { Refresh } from '@element-plus/icons-vue'
 
-export default defineComponent({
-	components: {
-		Layer,
-		Selector
-	},
-	props: {
-		layer: {
-			type: Object,
-			default: () => {
-				return {}
-			}
-		}
-	},
-	setup(props, ctx) {
-		const visible = ref(false)
-		const refForm = ref(null)
-		const layerDom = ref(null)
-		let form = ref({
-			name: '',
-			children: [],
-			meta: { icon: 'DataAnalysis', title: 'message.menu.control.name' },
-			path: '/control',
-			redirect: '/dashboard',
-			remark: '',
-			weight: '',
-			radio: '1'
-		})
-		const rules = {
-			name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-			redirect: [{ required: true, message: '请输入数字', trigger: 'blur' }],
-			path: [{ required: true, message: '请选择', trigger: 'blur' }],
-			icon: [{ required: true, message: '请选择', trigger: 'blur' }]
-		}
-		const inputRef = ref(null)
-		const popoverRef = ref(null)
-		let popWidth = computed(() => {
-			console.log('列表的高度是：', popoverRef.value)
-			return popoverRef.value?.offsetWidth !== undefined ? popoverRef.value.offsetWidth : 450
-		})
-
-		// 打开图标
-		const onClickOutside = () => {
-			visible.value = true
-			// unref(popoverRef).popperRef?.delayHide?.()
-		}
-
-		// 选择图标
-		const getIcon = (event) => {
-			form.value.meta.icon = event
-			visible.value = false
-		}
-
-		// 重置图标
-		const refreshIcon = () => {
-			form.value.meta.icon = ''
-		}
-
-		const init = () => {
-			// 用于判断新增还是编辑功能
-			if (props.layer.row) {
-				form.value = JSON.parse(JSON.stringify(props.layer.row)) // 数量量少的直接使用这个转
-			} else {
-			}
-		}
-		const cancel = () => {
-			ctx.emit('close', true)
-		}
-
-		const submit = () => {
-			// console.log('refForm!', refForm)
-			// console.log('refForm.value!', refForm.value)
-			if (refForm) {
-				refForm.value.validate((valid) => {
-					if (valid) {
-						console.log('submit!')
-						let params = form
-						if (props.layer.row) {
-							updateForm(params)
-						} else {
-							addForm(params)
-						}
-					} else {
-						console.log('error submit!')
-						return false
-					}
-				})
-			}
-		}
-		// 新增提交事件
-		const addForm = (params: object) => {
-			console.log('addForm!', props.layer.row)
-			add(params).then((res) => {
-				if (res) {
-					ElMessage({
-						message: '新增成功',
-						type: 'success'
-					})
-					ctx.emit('getTableData', true)
-				}
-				layerDom && layerDom.close()
-			})
-		}
-		// 编辑提交事件
-		const updateForm = (params: object) => {
-			console.log('updateForm!', props.layer.row)
-			update(params).then((res) => {
-				if (res) {
-					ElMessage({
-						message: '编辑成功',
-						type: 'success'
-					})
-					ctx.emit('getTableData', false)
-				}
-				layerDom && layerDom.close()
-			})
-		}
-		init()
-		return {
-			form,
-			rules,
-			layerDom,
-			refForm,
-			inputRef,
-			popoverRef,
-			Refresh,
-			popWidth,
-			visible,
-			onClickOutside,
-			getIcon,
-			refreshIcon,
-			cancel,
-			submit,
-			addForm,
-			updateForm
+// 接受父组件传递的props
+const props = defineProps({
+	layer: {
+		type: Object,
+		default: () => {
+			return {}
 		}
 	}
 })
+// 获取attrs
+const attrs = useAttrs()
+console.log('attrs', attrs)
+// 获取 emit
+const emit = defineEmits(['close', 'getTableData'])
+// 获取slots
+const slots = useSlots()
+console.log('slots', slots)
+
+const visible = ref(false)
+const refForm = ref(null)
+const layerDom = ref(null)
+let form = ref({
+	name: '',
+	children: [],
+	meta: { icon: '', title: '' },
+	path: '',
+	redirect: '',
+	remark: '',
+	weight: '',
+	radio: '1'
+})
+const rules = {
+	name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+	redirect: [{ required: true, message: '请输入数字', trigger: 'blur' }],
+	path: [{ required: true, message: '请选择', trigger: 'blur' }],
+	icon: [{ required: true, message: '请选择', trigger: 'blur' }]
+}
+const inputRef = ref(null)
+const popoverRef = ref(null)
+let popWidth = computed(() => {
+	console.log('列表的高度是：', popoverRef.value?.offsetWidth)
+	return popoverRef.value?.offsetWidth !== undefined ? popoverRef.value.offsetWidth : 450
+})
+
+// 打开图标
+const onClickOutside = () => {
+	visible.value = true
+	// unref(popoverRef).popperRef?.delayHide?.()
+}
+
+// 选择图标
+const getIcon = (event) => {
+	form.value.meta.icon = event
+	visible.value = false
+}
+
+// 重置图标
+const refreshIcon = () => {
+	form.value.meta.icon = ''
+}
+
+const init = () => {
+	console.log('初始化', props.layer.row)
+	// 用于判断新增还是编辑功能
+	if (props.layer.row) {
+		form.value = JSON.parse(JSON.stringify(props.layer.row)) // 数量量少的直接使用这个转
+	} else {
+	}
+}
+const cancel = () => {
+	emit('close', true)
+}
+
+const submit = () => {
+	// console.log('refForm!', refForm)
+	// console.log('refForm.value!', refForm.value)
+	if (refForm) {
+		refForm.value.validate((valid) => {
+			if (valid) {
+				console.log('submit!')
+				let params = form
+				if (props.layer.row) {
+					updateForm(params)
+				} else {
+					addForm(params)
+				}
+			} else {
+				console.log('error submit!')
+				return false
+			}
+		})
+	}
+}
+// 新增提交事件
+const addForm = (params: object) => {
+	console.log('addForm!', props.layer.row)
+	add(params).then((res) => {
+		if (res) {
+			ElMessage({
+				message: '新增成功',
+				type: 'success'
+			})
+			emit('getTableData', true)
+		}
+		layerDom && layerDom.close()
+	})
+}
+// 编辑提交事件
+const updateForm = (params: object) => {
+	console.log('updateForm!', props.layer.row)
+	update(params).then((res) => {
+		if (res) {
+			ElMessage({
+				message: '编辑成功',
+				type: 'success'
+			})
+			emit('getTableData', false)
+		}
+		layerDom && layerDom.close()
+	})
+}
+init()
 </script>
 
 <style lang="scss" scoped></style>

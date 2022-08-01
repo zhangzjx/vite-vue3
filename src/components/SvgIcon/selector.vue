@@ -1,6 +1,6 @@
 <template>
 	<div class="main">
-		<div v-for="(name, index) in icons" :key="index" class="main-icon" @click="onIcon(name)">
+		<div v-for="(name, index) in iconList.icons" :key="index" class="main-icon" @click="onIcon(name)">
 			<el-icon style="font-size: 40px" :title="name">
 				<component :index="index" :key="index" :is="name"></component>
 			</el-icon>
@@ -8,47 +8,39 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from 'vue'
+<script lang="ts" setup>
+import { reactive, defineEmits } from 'vue'
 import * as ElIcons from '@element-plus/icons-vue'
-export default defineComponent({
-	components: {},
-	props: {
-		layer: {
-			type: Object,
-			default: () => {
-				return {}
-			}
-		}
-	},
-	setup(props, ctx) {
-		const getData = () => {
-			console.log('页面挂载了')
-			var icons = []
-			for (const name in ElIcons) {
-				// console.error(name)
-				icons.push(name)
-			}
-			return icons
-		}
-
-		const iconsData = reactive(getData())
-
-		const iconList = reactive({
-			icons: iconsData
-		})
-		const data = toRefs(iconList)
-
-		const onIcon = (icon: string) => {
-			console.log('icon', icon)
-			ctx.emit('getIcon', icon)
-		}
-		return {
-			...data,
-			onIcon
+// 接受父组件传递的props
+const props = defineProps({
+	layer: {
+		type: Object,
+		default: () => {
+			return {}
 		}
 	}
 })
+// 获取 emit
+const emit = defineEmits(['getIcon'])
+const getData = () => {
+	console.log('页面挂载了')
+	let icons = []
+	for (const name in ElIcons) {
+		// console.error(name)
+		icons.push(name)
+	}
+	return icons
+}
+
+const iconsData = reactive(getData())
+const iconList = reactive({
+	icons: iconsData
+})
+
+const onIcon = (icon: string) => {
+	// console.log('icon', icon)
+	emit('getIcon', icon)
+}
 </script>
 
 <style lang="scss" scoped>
