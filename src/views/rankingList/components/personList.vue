@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, nextTick } from 'vue'
+import { defineComponent, ref, reactive, nextTick, toRefs } from 'vue'
 import UserCard from './userCard.vue'
 import BeastCard from './beastCard.vue'
 import Pagination from '@/components/Pagination/index.vue'
@@ -87,7 +87,7 @@ export default defineComponent({
 	setup(props) {
 		let dialogVisible = ref(false)
 		let activiteCom = ref('UserCard')
-		let tableData = ref([
+		let tableData = reactive([
 			// {
 			// 	// id: 1,
 			// 	name: '王铁牛',
@@ -103,16 +103,15 @@ export default defineComponent({
 		const pageParams = reactive({ total: 50, page: 1, limit: 10 })
 		const pageParams2 = reactive({ total: 50, page: 1, limit: 10 })
 
-		let tableBeast = ref([])
+		let tableBeast = reactive([])
 		let params = reactive({})
-		// let params = ref({})
 
 		const openCard = (id, type) => {
 			dialogVisible.value = true
 			activiteCom.value = type === 'left' ? 'UserCard' : 'BeastCard'
 			// params.value = tableData[0] // 可以使用ref形式赋值
-			// params = tableData[0]  // 直接赋值子组件取不到值
-			Object.assign(params, tableData.value[id - 1])
+			// params = tableData[id - 1]  // 直接赋值子组件取不到值
+			Object.assign(params, tableData[id - 1])
 			console.error('params', params)
 		}
 
@@ -132,8 +131,8 @@ export default defineComponent({
 				limit // 每页大小
 			}
 			// 分页参数已拿到，剩下就是你自己调用接口的方法
-			tableData.value = personData.slice((page - 1) * limit, page * limit)
-			console.error('tableData', tableData)
+			tableData = personData.slice((page - 1) * limit, page * limit)
+			console.log('tableData', tableData)
 		}
 
 		const getBeastData = (pages: any, form = {}) => {
@@ -143,8 +142,8 @@ export default defineComponent({
 				page, // 页码
 				limit // 每页大小
 			}
-			tableBeast.value = beastData.slice((page - 1) * limit, page * limit)
-			console.error('tableBeast', tableBeast)
+			tableBeast = beastData.slice((page - 1) * limit, page * limit)
+			console.log('tableBeast', tableBeast)
 		}
 		initData()
 		return {

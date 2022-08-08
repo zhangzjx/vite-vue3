@@ -42,31 +42,25 @@
 	</el-card>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, toRef } from 'vue'
-
-export default defineComponent({
-	name: 'UserCard',
-	components: {},
-	props: {
-		parentInfo: {
-			type: Object,
-			default: () => {
-				return {
-					name: '',
-					sectName: '',
-					address: ''
-				}
+<script lang="ts" setup>
+import { reactive, defineEmits } from 'vue'
+// name: 'UserCard',
+// 接受父组件传递的props
+const props = defineProps({
+	parentInfo: {
+		type: Object,
+		default: () => {
+			return {
+				name: '',
+				sectName: '',
+				address: ''
 			}
-		},
-		msg: { type: String, default: '' }
+		}
 	},
-	setup(props, { emit }) {
-		console.log('props.parentInfo', props.parentInfo) //父组件信息
-
-		return {}
-	}
+	msg: { type: String, default: '' }
 })
+
+console.log('props.parentInfo', props.parentInfo) //父组件信息
 </script>
 
 <style lang="scss" scoped>

@@ -18,48 +18,40 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+<script lang="ts" setup>
+import { reactive } from 'vue'
 
-export default defineComponent({
-	name: 'BeastCard',
-	props: {
-		parentInfo: {
-			type: Object,
-			default: () => {
-				return {
-					name: '',
-					sectName: '',
-					address: ''
-				}
+const props = defineProps({
+	parentInfo: {
+		type: Object,
+		default: () => {
+			return {
+				name: '',
+				sectName: '',
+				address: ''
 			}
-		},
-		msg: { type: String, default: '' }
-	},
-	setup(props) {
-		const tableData = reactive([
-			{
-				id: '1',
-				name: '王铁牛',
-				sectName: '金刀门',
-				address: '东胜神州傲来国',
-				sectLevel: '1',
-				createTime: '2016-05-02'
-			},
-			{
-				id: '2',
-				name: '王铁牛',
-				sectName: '十二连环坞',
-				address: '东胜神州傲来国',
-				sectLevel: '1',
-				createTime: '2016-05-02'
-			}
-		])
-		return {
-			tableData
 		}
-	}
+	},
+	msg: { type: String, default: '' }
 })
+const tableData = reactive([
+	{
+		id: '1',
+		name: '王铁牛',
+		sectName: '金刀门',
+		address: '东胜神州傲来国',
+		sectLevel: '1',
+		createTime: '2016-05-02'
+	},
+	{
+		id: '2',
+		name: '王铁牛',
+		sectName: '十二连环坞',
+		address: '东胜神州傲来国',
+		sectLevel: '1',
+		createTime: '2016-05-02'
+	}
+])
 </script>
 
 <style lang="scss" scoped>
