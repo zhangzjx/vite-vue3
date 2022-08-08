@@ -43,49 +43,21 @@
 					</el-form-item>
 				</div>
 				<div class="form-item">
-					<el-button type="primary" @click="onQuery" :icon="Search">查询</el-button>
-					<el-button
-						:loading="loading"
-						type="primary"
-						class="m-l-4"
-						@click="onReset"
-						:icon="Refresh"
-						>重置</el-button
-					>
-					<el-button
-						v-if="formBtn.includes('exerpot')"
-						:loading="loading"
-						type="primary"
-						class="m-l-4"
-						@click="onExerpot"
-						>导出</el-button
-					>
-					<el-button
+					<BaseButton :btn-params="btnParams" :text-icon="`search`" @click="onQuery"></BaseButton>
+					<BaseButton :btn-params="btnParams" :text-icon="`refresh`" @click="onReset"></BaseButton>
+					<BaseButton
+						v-if="formBtn.includes('export')"
+						:btn-params="btnParams"
+						:text-icon="`export`"
+						@click="onExport"
+					></BaseButton>
+					<BaseButton
 						v-if="formBtn.includes('insert')"
-						:loading="loading"
-						type="primary"
-						class="m-l-4"
+						:btn-params="btnParams"
+						:text-icon="`add`"
 						@click="onInsert"
-						>添加</el-button
-					>
-					<!-- <el-button
-						v-if="config.length > 10"
-						class="collapse-btn m-l-4"
-						size="small"
-						type="link"
-						:icon="collapsed ? 'up' : 'down'"
-						@click="collapsed = !collapsed"
-						>{{ collapsed ? '收起' : '更多' }}</el-button
-					> -->
+					></BaseButton>
 				</div>
-				<!-- <div v-for="item in searchItems" :key="item.field">
-					<el-form-item label="Activity zone">
-						<el-select v-model="formData.region" placeholder="Activity zone">
-							<el-option label="Zone one" value="shanghai" />
-							<el-option label="Zone two" value="beijing" />
-						</el-select>
-					</el-form-item>
-				</div> -->
 			</el-form>
 		</div>
 	</div>
@@ -95,6 +67,7 @@
 import { nextTick, Prop, ref, reactive } from 'vue'
 import { defineComponent, computed } from 'vue'
 import { Delete, Edit, Search, Refresh, Upload } from '@element-plus/icons-vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 interface Props {
 	formBtn: Array<any>
@@ -102,6 +75,9 @@ interface Props {
 }
 export default defineComponent({
 	name: 'Pagination',
+	components: {
+		BaseButton
+	},
 	props: {
 		/**
 		 * @desc form config 控件配置
@@ -128,6 +104,7 @@ export default defineComponent({
 		const loading = false
 		const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 		let formData = reactive({})
+		const btnParams = reactive({ size: 'default', showText: true })
 
 		const onQuery = () => {
 			emit('query', formData)
@@ -147,9 +124,9 @@ export default defineComponent({
 			emit('insert')
 		}
 
-		const onExerpot = () => {
+		const onExport = () => {
 			console.log('导出!')
-			emit('exerpot')
+			emit('export')
 		}
 
 		//构造formData初始值(防止出现reset后undefined、以及需要默认值时)
@@ -165,10 +142,11 @@ export default defineComponent({
 			loading,
 			defaultTime,
 			formData,
+			btnParams,
 			onQuery,
 			onReset,
 			onInsert,
-			onExerpot,
+			onExport,
 			setInitFormData,
 			Delete,
 			Edit,

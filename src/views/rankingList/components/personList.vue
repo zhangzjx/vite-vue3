@@ -112,7 +112,7 @@ export default defineComponent({
 			// params.value = tableData[0] // 可以使用ref形式赋值
 			// params = tableData[id - 1]  // 直接赋值子组件取不到值
 			Object.assign(params, tableData[id - 1])
-			console.error('params', params)
+			console.log('params', params)
 		}
 
 		const initData = () => {

@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, defineEmits } from 'vue'
+import { defineEmits } from 'vue'
 // name: 'UserCard',
 // 接受父组件传递的props
 const props = defineProps({
@@ -60,7 +60,7 @@ const props = defineProps({
 	msg: { type: String, default: '' }
 })
 
-console.log('props.parentInfo', props.parentInfo) //父组件信息
+// console.log('props.parentInfo', props.parentInfo) //父组件信息
 </script>
 
 <style lang="scss" scoped>

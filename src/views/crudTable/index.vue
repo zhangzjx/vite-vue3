@@ -4,7 +4,7 @@
 		v-model="searchConfig.data"
 		:config="searchConfig.config"
 		:loading="searchConfig.loading"
-		:form-btn="['query', 'reset', 'exerpot']"
+		:form-btn="['query', 'reset', 'export']"
 		@query="query"
 		@reset="reset"
 		@insert="insert"
@@ -17,12 +17,10 @@
 		<el-table-column prop="chooseName" label="单选框" />
 		<el-table-column prop="radioName" label="选择器" />
 		<el-table-column prop="address" label="地址" />
-		<el-table-column label="Operations" width="180">
+		<el-table-column label="操作" align="center">
 			<template #default="scope">
-				<el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-				<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"
-					>删除</el-button
-				>
+				<BaseButton :text-icon="`edit`"></BaseButton>
+				<BaseButton :text-icon="`delete`" :type="`danger`"></BaseButton>
 			</template>
 		</el-table-column>
 	</el-table>
@@ -43,6 +41,8 @@
 import { defineComponent, ref, reactive } from 'vue'
 import Search from '@/components/base/SearchBar.vue'
 import Pagination from '@/components/Pagination/index.vue'
+
+import BaseButton from '@/components/base/BaseButton.vue'
 import LayerDialog from './dialog.vue'
 import { mockData } from './enum'
 export default defineComponent({
@@ -50,7 +50,8 @@ export default defineComponent({
 	components: {
 		Search,
 		Pagination,
-		LayerDialog
+		LayerDialog,
+		BaseButton
 	},
 	setup() {
 		const searchConfig = {

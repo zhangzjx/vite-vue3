@@ -5,7 +5,7 @@
 			v-model="searchConfig.data"
 			:config="searchConfig.config"
 			:loading="searchConfig.loading"
-			:form-btn="['query', 'reset','insert', 'exerpot']"
+			:form-btn="['query', 'reset', 'insert', 'export']"
 			@query="query"
 			@reset="reset"
 			@insert="handleAdd"
@@ -35,12 +35,10 @@
 			<el-table-column prop="path" label="更新时间" align="center" min-width="100">
 				<template #default="scope"> 2022-08-01 20:36:06 </template>
 			</el-table-column>
-			<el-table-column label="操作" min-width="120" align="center">
+			<el-table-column label="操作" align="center">
 				<template #default="scope">
-					<el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-					<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"
-						>删除</el-button
-					>
+					<BaseButton :text-icon="`edit`"></BaseButton>
+					<BaseButton :text-icon="`delete`" :type="`danger`"></BaseButton>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -62,7 +60,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import Search from '@/components/base/SearchBar.vue'
-// import Search from '@/components/base/BaseForm.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 import Pagination from '@/components/Pagination/index.vue'
 import LayerDialog from './dialog.vue'
 import menu from '@/i18n/modules/zh-cn/menu'
@@ -72,7 +70,8 @@ export default defineComponent({
 	components: {
 		Search,
 		Pagination,
-		LayerDialog
+		LayerDialog,
+		BaseButton
 	},
 
 	setup() {
@@ -195,7 +194,7 @@ export default defineComponent({
 			}
 			tableData.value = res
 			console.error('res', tableData)
-		} 
+		}
 
 		const query = (data) => {
 			// console.log('确定', data)
