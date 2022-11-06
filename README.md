@@ -60,4 +60,12 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 ├── tsconfig.json # ts 配置文件
 └── vite.config.ts # vite配置
 
+
+ "dev": "vite",
+    serve": "vite",
+    "build": "vite build && vite build --mode staging", # 打包 
+    "preview": "vite preview", # 预览打包出来的代码的效果
+    "lint": "eslint src --fix --ext .ts,.tsx,.vue,.js,.jsx",
+    "prettier": "prettier --write ."
+
 ```

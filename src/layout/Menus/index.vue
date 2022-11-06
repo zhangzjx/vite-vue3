@@ -51,7 +51,7 @@ const userStore = useConfigStore()
 
 const { proxy } = getCurrentInstance() // 相当于this
 const mockMenu = ref(proxy.$router.options.routes)
-mockMenu.value.splice(0, 2)
+mockMenu.value.splice(0, 4)
 localStorage.setItem('menus', JSON.stringify(mockMenu.value))
 console.log('路由表', mockMenu.value)
 

@@ -1,3 +1,6 @@
+<!--
+ * @Description: 后台视图入口
+-->
 <template>
 	<el-container class="app-wrapper">
 		<el-aside :width="asideWidth" class="sidebar-container">
@@ -6,6 +9,7 @@
 		<el-container class="container" :class="{ hidderContainer: !isSider }">
 			<el-header><Headers /></el-header>
 			<el-main><router-view /></el-main>
+			<el-footer><Footer /></el-footer>
 		</el-container>
 	</el-container>
 </template>
@@ -14,6 +18,7 @@
 import { computed, ref } from 'vue'
 import Headers from './Headers/index.vue'
 import Menu from './Menus/index.vue'
+import Footer from './Footer/footer.vue'
 import variables from '@/style/variables.scss'
 import { useConfigStore } from '@/store/config'
 import { storeToRefs } from 'pinia'

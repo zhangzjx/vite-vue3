@@ -17,8 +17,9 @@ const setAsyncRouter = async () => {
 	return asyncRoutes
 }
 
-// 路由前置守卫
+// 全局路由前置守卫
 router.beforeEach((to, from, next) => {
+	console.log('beforeEach 全局前置钩子', '前往:', to.name, '来自:', from.name)
 	const userStore = useUserStore()
 	if (userStore.token) {
 		if (to.path === '/login') {
@@ -33,4 +34,15 @@ router.beforeEach((to, from, next) => {
 			next('/login')
 		}
 	}
+})
+
+// 全局解析守卫
+router.beforeResolve((to, from, next) => {
+	console.log('beforeResolve 全局解析守卫')
+	next()
+})
+
+// 全局路由前置守卫
+router.afterEach((to, from) => {
+	console.log('afterEach 全局后置钩子', '前往:', to.name, '来自:', from.name)
 })

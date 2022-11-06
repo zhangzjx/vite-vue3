@@ -59,7 +59,27 @@ const constantRoutes = [
 		component: () => import('@/views/login/Login.vue'),
 		meta: { title: 'message.system.login', menuHide: true }
 	},
-
+  // 所有人都可访问
+  {
+    path: "/eye",
+    name: "eye",
+    hidden: true,
+    component: () => import("@/views/other/eye.vue"),
+    meta: {
+      title: "可视化",
+      icon: "example"
+    },
+  },
+	{
+    path: "/demo",
+    name: "demo",
+    hidden: true,
+    component: () => import("@/views/other/demo.vue"),
+    meta: {
+      title: "测试",
+      icon: "example"
+    },
+  },
 	// 控制台
 	{
 		path: '/control',
